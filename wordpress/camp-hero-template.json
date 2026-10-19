@@ -1,0 +1,28 @@
+{
+  "version": "0.4",
+  "title": "Camp Hero",
+  "type": "container",
+  "page_settings": [],
+  "content": [
+    {
+      "id": "6a1c0a1",
+      "elType": "container",
+      "isInner": false,
+      "settings": {
+        "content_width": "full",
+        "padding": { "unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": true },
+        "margin": { "unit": "px", "top": "0", "right": "0", "bottom": "0", "left": "0", "isLinked": true },
+        "flex_gap": { "unit": "px", "size": 0, "column": "0", "row": "0", "isLinked": true }
+      },
+      "elements": [
+        {
+          "id": "6a1c0a2",
+          "elType": "widget",
+          "widgetType": "gc_camp_hero",
+          "settings": { "header_height": 0, "header_overlay": "" },
+          "elements": []
+        }
+      ]
+    }
+  ]
+}

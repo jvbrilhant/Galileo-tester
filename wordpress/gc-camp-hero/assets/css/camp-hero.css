@@ -1,0 +1,181 @@
+/* ==========
+   Camp Hero — styles for the [gc_camp_hero] shortcode / "Camp Hero" Elementor widget.
+   Everything is scoped under .gc-hero so theme and Elementor kit styles cannot leak in.
+   Motion uses transform/opacity only; camp-hero.js toggles .is-paused when off-screen.
+   ========== */
+
+@font-face { font-family: "GC Prata"; src: url("../fonts/prata-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "GC Poppins"; src: url("../fonts/poppins-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "GC Poppins"; src: url("../fonts/poppins-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+.gc-hero {
+  --gc-on-dark: #fff;
+  --gc-on-dark-muted: #c9d3e1;
+  --gc-amber: #ffc83d;
+  --gc-scrim: rgb(0 12 30 / .74);
+  --gc-font-heading: "GC Prata", "Prata", Georgia, "Times New Roman", serif;
+  --gc-font-body: "GC Poppins", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --gc-gutter: clamp(1rem, 4vw, 2.5rem);
+  --gc-ease: cubic-bezier(.2, .7, .2, 1);
+  --gc-dur: 280ms;
+  --gc-overlay-offset: 0px;  /* header overlays the hero: push the intro down by its height */
+  --gc-header-space: 0px;    /* header sits above the hero: shrink the hero so it fits the screen */
+  --gc-radius: 32px;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  background: #10335c;
+  color: var(--gc-on-dark);
+  font-family: var(--gc-font-body);
+  line-height: 1.6;
+  text-align: left;
+  border-radius: 0 0 var(--gc-radius) var(--gc-radius);
+}
+
+/* Local reset (themes often style these globally). */
+.gc-hero *, .gc-hero *::before, .gc-hero *::after { box-sizing: border-box; }
+.gc-hero p, .gc-hero h1, .gc-hero h2, .gc-hero ul, .gc-hero li { margin: 0; padding: 0; }
+.gc-hero ul { list-style: none; }
+.gc-hero img { display: block; max-width: 100%; height: auto; border: 0; box-shadow: none; border-radius: 0; }
+.gc-hero a, .gc-hero a:hover, .gc-hero a:focus { color: var(--gc-on-dark); text-decoration: none; }
+
+.gc-hero .gc-hero__media, .gc-hero .gc-hero__fx { position: absolute; inset: 0; z-index: -1; }
+.gc-hero .gc-hero__image { width: 100%; height: 100%; object-fit: cover; object-position: 50% 100%; }
+.gc-hero .gc-hero__shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 12 30 / .78) 0%, rgb(0 12 30 / .62) 30%, rgb(0 12 30 / .55) 60%, rgb(0 12 30 / .72) 100%); }
+.gc-hero .gc-fireflies i { position: absolute; left: var(--fx); top: var(--fy); width: 3px; height: 3px; border-radius: 50%; background: #ffe9a3; box-shadow: 0 0 8px 2px rgb(255 214 110 / .55); opacity: .5; }
+
+.gc-hero .gc-hero__intro { max-width: 62rem; margin-inline: auto; padding: calc(2.5rem + var(--gc-overlay-offset)) var(--gc-gutter) 2.5rem; text-align: center; }
+.gc-hero .gc-hero__eyebrow { margin-bottom: 1rem; font-family: var(--gc-font-body); font-size: .8125rem; font-weight: 500; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; color: var(--gc-amber); }
+.gc-hero .gc-hero__title { margin: 0; font-family: var(--gc-font-heading); font-weight: 400; font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem); line-height: 1.08; letter-spacing: -.01em; text-wrap: balance; text-transform: none; color: var(--gc-on-dark); }
+
+.gc-hero .gc-camp { padding: 0 var(--gc-gutter) 3rem; }
+.gc-hero .gc-camp__places { display: grid; gap: .75rem; max-width: 34rem; margin-inline: auto; }
+
+/* Shared place link (fire + tents). */
+.gc-hero .gc-place { position: relative; display: grid; color: var(--gc-on-dark); border-radius: 16px; -webkit-tap-highlight-color: transparent; transition: scale 200ms var(--gc-ease); }
+.gc-hero .gc-place:focus { outline: none; }
+.gc-hero .gc-place:focus-visible { outline: 3px solid var(--gc-amber); outline-offset: 4px; box-shadow: 0 0 0 10px rgb(0 12 30 / .55); }
+.gc-hero .gc-place:active { scale: .98; }
+
+.gc-hero .gc-place__label { display: block; }
+.gc-hero .gc-place__name { display: block; font-family: var(--gc-font-body); font-weight: 600; font-size: clamp(1rem, .95rem + .3vw, 1.1875rem); line-height: 1.3; }
+.gc-hero .gc-place__desc { display: block; margin-top: 2px; font-size: .875rem; line-height: 1.45; color: var(--gc-on-dark-muted); }
+.gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__name { color: var(--gc-amber); }
+
+.gc-hero .gc-place__art { position: relative; display: block; }
+.gc-hero .gc-place__img { position: relative; width: 100%; height: auto; transition: transform var(--gc-dur) var(--gc-ease); }
+
+/* Phones: full-width cards (tent left, text right). */
+.gc-hero .gc-cabin { grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem .75rem .75rem; background: var(--gc-scrim); border: 1px solid rgb(255 255 255 / .16); }
+.gc-hero .gc-place__glow { display: none; }
+
+/* ≥900px: the hero fills the viewport and the photo is drawn with object-fit: cover,
+   bottom-anchored. --img-w/--img-h are the photo's rendered size (container units),
+   so every place is pinned to the same spot of the photo at any width or height. */
+@media (min-width: 900px) {
+  .gc-hero {
+    container-type: size;
+    height: max(560px, min(100svh - var(--gc-header-space), 61vw), 50vw);
+    --img-w: max(100cqw, 100cqh * 1.7758);
+    --img-h: calc(var(--img-w) * .5631);
+  }
+
+  .gc-hero .gc-hero__shade { background: linear-gradient(180deg, rgb(0 12 30 / .8) 0%, rgb(0 12 30 / .62) 26%, rgb(0 12 30 / .18) 46%, rgb(0 12 30 / 0) 62%, rgb(0 12 30 / .3) 100%); }
+
+  .gc-hero .gc-hero__intro { max-width: 82rem; padding-block: calc(clamp(2rem, 7svh, 4.5rem) + var(--gc-overlay-offset)) 0; }
+  .gc-hero .gc-hero__eyebrow { margin-bottom: .5rem; }
+  .gc-hero .gc-hero__title { font-size: clamp(1.75rem, min(2.85vw, 6svh), 3.5rem); line-height: 1.12; }
+
+  .gc-hero .gc-camp { position: absolute; inset: 0; padding: 0; }
+  .gc-hero .gc-camp__places { display: block; max-width: none; }
+
+  .gc-hero .gc-place {
+    position: absolute;
+    left: calc(50cqw + (var(--x) - .5) * var(--img-w));
+    top: calc(100cqh - var(--img-h) * (1 - var(--y)) - var(--w) * var(--img-w) * var(--ar));
+    width: calc(var(--w) * var(--img-w));
+    translate: -50% 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25rem;
+    border-radius: 14px;
+  }
+
+  /* Label = a small plaque on the ground; only the name shows at rest. */
+  .gc-hero .gc-place__label { position: relative; width: max-content; padding: .625rem 1rem; text-align: center; background: var(--gc-scrim); border: 1px solid rgb(255 255 255 / .18); border-radius: 10px; }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { border-color: rgb(255 200 61 / .8); }
+  .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
+  .gc-hero .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: rgb(0 12 30 / .92); border: 1px solid rgb(255 200 61 / .45); border-radius: 10px; opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+  .gc-hero .gc-place:is(:hover, :focus-visible) { z-index: 5; }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+
+  .gc-hero .gc-place__art { width: 100%; }
+  .gc-hero .gc-cabin { padding: 0; background: none; border: 0; }
+  .gc-hero .gc-place__glow { display: block; }
+}
+
+/* Compact range (900–1199px): smaller plaques, no eyebrow. */
+@media (min-width: 900px) and (max-width: 1199.98px) {
+  .gc-hero .gc-hero__eyebrow { display: none; }
+  .gc-hero .gc-place__label { padding: .5rem .75rem; }
+  .gc-hero .gc-place__name { font-size: .875rem; }
+  .gc-hero .gc-place__desc { max-width: 11rem; font-size: .75rem; line-height: 1.35; }
+}
+
+/* Campfire: graded asset + three screen-blended flame copies (1.7/2.3/3.1s). */
+.gc-hero .gc-campfire { justify-items: center; text-align: center; gap: .5rem; }
+.gc-hero .gc-campfire .gc-place__art { width: min(62vw, 13.5rem); aspect-ratio: 800 / 570; }
+.gc-hero .gc-campfire__img { position: relative; width: 100%; height: auto; }
+.gc-hero .gc-campfire__flame { position: absolute; inset: 0; background: url("../img/campfire-flame.webp") center / 100% 100%; mix-blend-mode: screen; opacity: .5; transform-origin: 55.5% 56%; transition: opacity var(--gc-dur) var(--gc-ease); }
+.gc-hero .gc-campfire__glow { position: absolute; left: -70%; right: -70%; top: 25%; bottom: -25%; background: radial-gradient(closest-side, rgb(255 150 60 / .36), rgb(255 120 40 / .12) 55%, transparent); mix-blend-mode: screen; pointer-events: none; }
+.gc-hero .gc-campfire__embers i { position: absolute; left: 55.5%; top: 42%; width: 3px; height: 3px; border-radius: 50%; background: #ffcf6e; box-shadow: 0 0 4px #ff9a3c; opacity: 0; }
+.gc-hero .gc-campfire:is(:hover, :focus-visible) .gc-campfire__flame { opacity: .8; }
+@media (min-width: 900px) { .gc-hero .gc-campfire .gc-place__art { width: 100%; } }
+
+/* Tents: graded WebP + extra-light layer, cast shadow and door light on the ground. */
+.gc-hero .gc-place__glow { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: screen; opacity: 0; pointer-events: none; transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+.gc-hero .gc-place__shadow, .gc-hero .gc-place__light { position: absolute; border-radius: 50%; pointer-events: none; transition: transform var(--gc-dur) var(--gc-ease), opacity var(--gc-dur) var(--gc-ease); }
+.gc-hero .gc-place__shadow { left: calc(4% + var(--sx, 0) * 100%); right: calc(4% - var(--sx, 0) * 100%); top: 66%; height: 26%; background: radial-gradient(closest-side, rgb(0 0 0 / .62), rgb(0 0 0 / .28) 60%, transparent); }
+.gc-hero .gc-place__light { left: 45%; right: -6%; top: 74%; height: 26%; background: radial-gradient(closest-side, rgb(255 170 80 / .42), transparent); mix-blend-mode: screen; opacity: .5; }
+.gc-hero .gc-cabin--about .gc-place__light { left: -6%; right: 45%; }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) :is(.gc-place__img, .gc-place__glow) { transform: translateY(-3px); }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__glow { opacity: 1; }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__shadow { transform: scaleX(.95); opacity: .85; }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__light { opacity: 1; }
+
+/* Motion */
+@media (prefers-reduced-motion: no-preference) {
+  .gc-hero .gc-campfire__flame { will-change: transform, opacity; }
+  .gc-hero .gc-campfire__flame--1 { animation: gc-flicker-a 3.1s ease-in-out infinite alternate; }
+  .gc-hero .gc-campfire__flame--2 { animation: gc-flicker-b 2.3s ease-in-out infinite alternate; }
+  .gc-hero .gc-campfire__flame--3 { animation: gc-flicker-c 1.7s ease-in-out infinite alternate; }
+  .gc-hero .gc-campfire__glow { animation: gc-glow 2.9s ease-in-out infinite alternate; }
+  .gc-hero .gc-campfire__embers i { will-change: transform, opacity; animation: gc-ember 2.8s linear infinite; }
+  .gc-hero .gc-campfire__embers i:nth-child(1) { --dx: -14px; animation-duration: 2.6s; animation-delay: -.3s; }
+  .gc-hero .gc-campfire__embers i:nth-child(2) { --dx: 10px; animation-duration: 3.2s; animation-delay: -1.4s; }
+  .gc-hero .gc-campfire__embers i:nth-child(3) { --dx: -5px; animation-duration: 2.3s; animation-delay: -2.1s; }
+  .gc-hero .gc-campfire__embers i:nth-child(4) { --dx: 16px; animation-duration: 3.6s; animation-delay: -.9s; }
+  .gc-hero .gc-campfire__embers i:nth-child(5) { --dx: -18px; animation-duration: 3s; animation-delay: -2.6s; }
+  .gc-hero .gc-campfire__embers i:nth-child(6) { --dx: 6px; animation-duration: 2.5s; animation-delay: -1.7s; }
+  .gc-hero .gc-fireflies i { animation: gc-firefly 7s ease-in-out infinite alternate; }
+  .gc-hero .gc-fireflies i:nth-child(2n) { animation-duration: 9s; animation-delay: -3s; }
+  .gc-hero .gc-fireflies i:nth-child(3n) { animation-duration: 11s; animation-delay: -6s; }
+  .gc-hero.is-paused *, .gc-hero.is-paused *::before, .gc-hero.is-paused *::after { animation-play-state: paused !important; }
+}
+
+@keyframes gc-flicker-a { 0% { transform: scaleY(1) skewX(0deg); } 40% { transform: scaleY(1.06) skewX(-2deg); } 100% { transform: scaleY(.97) skewX(1.5deg); } }
+@keyframes gc-flicker-b { 0% { transform: scale(1, 1) translateX(0); opacity: .35; } 50% { transform: scale(.97, 1.08) translateX(1px); opacity: .5; } 100% { transform: scale(1.02, .96) translateX(-1px); opacity: .3; } }
+@keyframes gc-flicker-c { 0% { transform: scaleY(1) skewX(1deg); } 50% { transform: scaleY(1.1) skewX(-2.5deg); } 100% { transform: scaleY(.95) skewX(1deg); } }
+@keyframes gc-glow { from { opacity: .7; } to { opacity: 1; } }
+@keyframes gc-ember { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx, 6px), -130px); } }
+@keyframes gc-firefly { 0% { opacity: .15; transform: translate(0, 0); } 50% { opacity: .9; } 100% { opacity: .25; transform: translate(18px, -14px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-hero *, .gc-hero *::before, .gc-hero *::after { animation: none !important; transition-duration: 0s !important; }
+  .gc-hero .gc-campfire__embers, .gc-hero .gc-fireflies { display: none; }
+  .gc-hero .gc-place:active { scale: none; }
+}
