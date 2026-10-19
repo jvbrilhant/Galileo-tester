@@ -43,15 +43,15 @@ All images are WebP, served through `srcset`, so retina screens get sharp versio
 | `assets/img/camp-bg-portrait-{540,1060}.webp` | Phone version: a crop around the lake and fire, softly blurred because it sits under a scrim |
 | `assets/img/tent-{library,study,about}-{260,520,900,1400}.webp` | Tents, built from the client's transparent tent PNG |
 | `assets/img/tent-*-glow.webp` | Extra interior light, shown on hover and focus (`mix-blend-mode: screen`) |
-| `assets/img/campfire-{420,800,1200}.webp` | The client's fire pit PNG, graded: dusk ambient, firelight on logs and stones, ember glow |
+| `assets/img/campfire-{420,800}.webp` | The client's fire pit PNG, graded: dusk ambient, firelight on logs and stones, ember glow |
 | `assets/img/campfire-flame.webp` | The flames only. Three copies of it flicker at 1.7, 2.3 and 3.1 s |
 
 How the tents were built:
 
 - **Fabric colour:** recoloured to the reference. Library is olive, Study Groups grey and About Us orange.
-- **Side icons:** books for Library, the original group icon for Study Groups, and the project mark for About Us (in place of the lightbulb).
+- **Side icons:** the client's bookshelf icon for Library, the original group icon for Study Groups, and the project mark for About Us (in place of the lightbulb).
 - **Lighting:** graded to the dusk scene, with cool ambient light and a warm key from the fire side. The interior is lamp-lit through the door.
-- **Orientation:** all three keep the door on the right, as in the reference.
+- **Orientation:** About Us is mirrored, so its door faces left towards the fire. Mirroring keeps full resolution.
 
 ### Framing and coordinates
 
@@ -76,22 +76,22 @@ Each place is pinned to the same spot of the photo with values in **image fracti
 | `--ar` | Art height ÷ width: 0.5615 for the tents, 0.7122 for the fire |
 | `--sx` | Offset of the cast shadow. Negative values push it left, away from the fire |
 
-Each place's values are measured on the client's reference composition:
+The ground of the photo was mapped and every element stands on the dirt clearing, which spans about x .20–.90 and y .60–.85. The back corners of each tent footprint stay on dirt, not on the bushes or the slope. The scale is realistic: the fire ring is about two thirds of a tent's width.
 
 | Place | `--x` | `--y` | `--w` |
 |---|---|---|---|
-| Kitchen Ideas (fire) | .652 | .77 | .24 |
-| Library | .189 | .73 | .32 |
-| Study Groups | .461 | .666 | .23 |
-| About Us | .835 | .695 | .253 |
+| Kitchen Ideas (fire) | .62 | .745 | .13 |
+| Library | .22 | .727 | .22 |
+| Study Groups | .395 | .66 | .165 |
+| About Us | .80 | .715 | .20 |
 
-**Labels.** The labels sit on the ground under each element, which keeps the sky clear for the title. The Study Groups and About Us labels lean away from the fire, so they never cover the stones. From 900 to 1199px the labels are compact and the eyebrow line is hidden.
+**Labels.** The labels sit on the ground under each element, which keeps the sky clear for the title. They use Poppins (sans-serif) with generous vertical padding and have no underline on hover. From 900 to 1199px they are compact and the eyebrow line is hidden.
 
 **Below 900px.** The fire comes first, followed by three full-width cards, each with a tent on the left.
 
 ### Hover and focus
 
-- **Tents:** the tent rises 3px, the extra interior light fades in, the cast shadow tightens and the door light on the ground brightens. The label turns amber and gets an underline.
+- **Tents:** the tent rises 3px, the extra interior light fades in, the cast shadow tightens and the door light on the ground brightens. The label name and border turn amber.
 - **Fire:** the flames brighten.
 
 ## WordPress conversion
@@ -129,7 +129,7 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 | Project name `[NOME DO PROJETO]` | `<title>`, meta/OG, JSON-LD, `logo.svg`, logo `alt`, footer |
 | Logo and mark | `assets/svg/logo.svg`, `#gc-mark` symbol, inline favicon |
 | Tent and fire artwork | `assets/img/tent-*.webp`, `campfire.webp` (see "The camp") |
-| Hero eyebrow, title and subtitle | `.gc-hero__intro` |
+| Hero eyebrow and title | `.gc-hero__intro` |
 | Camp descriptions (4) | `.gc-place__desc` |
 | Hero backdrop | `assets/img/camp-bg-*.webp` |
 | Pipeline, join and mission texts | the corresponding sections |
@@ -153,8 +153,8 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 
 | File | Size | Budget |
 |---|---|---|
-| `index.html` | 23.9 KB | ≤ 60 KB ✅ |
-| `assets/css/main.css` | 28.9 KB | ≤ 30 KB ✅ |
+| `index.html` | 23.7 KB | ≤ 60 KB ✅ |
+| `assets/css/main.css` | 28.5 KB | ≤ 30 KB ✅ |
 | `assets/js/main.js` | 3.9 KB | ≤ 8 KB ✅ |
 | Fonts | 43 KB (4 files) | — |
 
@@ -163,7 +163,7 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 | Viewport | What loads | Total |
 |---|---|---|
 | Phone | 16–37 KB backdrop + 23 KB fire + 3 × 7–18 KB tents | ≈ 60–110 KB |
-| Desktop 1440px @1x | 98 KB backdrop + 54 KB fire + 3 × 18–38 KB tents + 3 × 21 KB glows | ≈ 300 KB |
+| Desktop 1440px @1x | 98 KB backdrop + 23 KB fire + 3 × 18 KB tents + 3 × 21 KB glows | ≈ 240 KB |
 
 All requests are local. There are no third-party requests.
 
@@ -195,5 +195,5 @@ Each brought it down from 2.8 s. Getting under 1.8 s would require dropping the 
 - **Paused animations:** the hero animations pause when the hero is off-screen and when the tab is hidden.
 - **Reduced motion:** no animations run, and hover still lights the tents.
 - **Contrast (WCAG 2.2 AA):**
-  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 6.7:1.
+  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 8.4:1.
   - Text in the light and dark sections passes; the lowest pair is 4.69:1.
