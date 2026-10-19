@@ -41,16 +41,16 @@ All images are WebP, served through `srcset`, so retina screens get sharp versio
 |---|---|
 | `assets/img/camp-bg-{1280,1920,2560,3342}.webp` | The client's dusk photo. Its original tents and fire were removed (LaMa inpainting), then it was upscaled 2× (EDSR super-resolution) |
 | `assets/img/camp-bg-portrait-{540,1060}.webp` | Phone version: a crop around the lake and fire, softly blurred because it sits under a scrim |
-| `assets/img/tent-{library,study,about}-{260,520,900,1400}.webp` | Tents, built from the client's transparent tent PNG |
+| `assets/img/tent-{library,study,about}-{260,520,900,1400}.webp` | The client's three tent PNGs, with their props: suitcase, books and lantern (Library); backpack (Study Groups); chair and table (About Us) |
 | `assets/img/tent-*-glow.webp` | Extra interior light, shown on hover and focus (`mix-blend-mode: screen`) |
 | `assets/img/campfire-{420,800}.webp` | The client's fire pit PNG, graded: dusk ambient, firelight on logs and stones, ember glow |
 | `assets/img/campfire-flame.webp` | The flames only. Three copies of it flicker at 1.7, 2.3 and 3.1 s |
 
 How the tents were built:
 
-- **Fabric colour:** recoloured to the reference. Library is olive, Study Groups grey and About Us orange.
+- **Fabric colour:** each tent keeps its own colour: blue for Library, beige for Study Groups and orange for About Us.
 - **Side icons:** the client's bookshelf icon for Library, the original group icon for Study Groups, and the project mark for About Us (in place of the lightbulb).
-- **Lighting:** graded to the dusk scene, with cool ambient light and a warm key from the fire side. The interior is lamp-lit through the door.
+- **Lighting:** graded to the dusk scene, with cool ambient light and a warm key from the fire side. The interior is lamp-lit through the door, and the lanterns keep their flames.
 - **Orientation:** About Us is mirrored, so its door faces left towards the fire. Mirroring keeps full resolution.
 
 ### Framing and coordinates
@@ -73,26 +73,26 @@ Each place is pinned to the same spot of the photo with values in **image fracti
 | `--x` | Horizontal centre of the element (0–1 of the photo width) |
 | `--y` | Bottom of the art, i.e. the stake tips or the base of the stones (0–1 of the photo height) |
 | `--w` | Width of the art (0–1 of the photo width) |
-| `--ar` | Art height ÷ width: 0.5615 for the tents, 0.7122 for the fire |
+| `--ar` | Art height ÷ width: 0.558 for the tents, 0.7122 for the fire |
 | `--sx` | Offset of the cast shadow. Negative values push it left, away from the fire |
 
-The ground of the photo was mapped and every element stands on the dirt clearing, which spans about x .20–.90 and y .60–.85. The back corners of each tent footprint stay on dirt, not on the bushes or the slope. The scale is realistic: the fire ring is about two thirds of a tent's width.
+The ground of the photo was mapped and every element stands on the dirt clearing, which spans about x .20–.90 and y .60–.85. The back corners of each tent footprint stay on dirt, not on the bushes or the slope. The scale is realistic: the fire ring is less than half a tent's width.
 
 | Place | `--x` | `--y` | `--w` |
 |---|---|---|---|
-| Kitchen Ideas (fire) | .62 | .745 | .13 |
-| Library | .22 | .727 | .22 |
-| Study Groups | .395 | .66 | .165 |
-| About Us | .80 | .715 | .20 |
+| Kitchen Ideas (fire) | .615 | .82 | .104 |
+| Library | .235 | .815 | .25 |
+| Study Groups | .445 | .735 | .19 |
+| About Us | .80 | .80 | .235 |
 
-**Labels.** The labels sit on the ground under each element, which keeps the sky clear for the title. They use Poppins (sans-serif) with generous vertical padding and have no underline on hover. From 900 to 1199px they are compact and the eyebrow line is hidden.
+**Labels.** A label sits on the ground under each element and shows only the category name, in Poppins (sans-serif) with generous vertical padding. On hover or keyboard focus, the description slides out below it, animated with opacity and transform only. It is always exposed to screen readers through `aria-describedby`. Phones keep the description visible in the cards, because they have no hover. From 900 to 1199px the labels are compact and the eyebrow line is hidden.
 
 **Below 900px.** The fire comes first, followed by three full-width cards, each with a tent on the left.
 
 ### Hover and focus
 
-- **Tents:** the tent rises 3px, the extra interior light fades in, the cast shadow tightens and the door light on the ground brightens. The label name and border turn amber.
-- **Fire:** the flames brighten.
+- **Tents:** the tent rises 3px, the extra interior light fades in, the cast shadow tightens and the door light on the ground brightens. The label name and border turn amber, and the description appears.
+- **Fire:** the flames brighten, and the description appears.
 
 ## WordPress conversion
 
@@ -154,7 +154,7 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 | File | Size | Budget |
 |---|---|---|
 | `index.html` | 23.7 KB | ≤ 60 KB ✅ |
-| `assets/css/main.css` | 28.5 KB | ≤ 30 KB ✅ |
+| `assets/css/main.css` | 29.0 KB | ≤ 30 KB ✅ |
 | `assets/js/main.js` | 3.9 KB | ≤ 8 KB ✅ |
 | Fonts | 43 KB (4 files) | — |
 
@@ -171,7 +171,7 @@ All requests are local. There are no third-party requests.
 
 | Profile | Performance | Accessibility | Best Practices | SEO | LCP | FCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| Mobile (slow 4G, 4× CPU) | 98 | 100 | 100 | 92* | 2.4 s | 1.2 s | 0.002 | 0 ms |
+| Mobile (slow 4G, 4× CPU) | 97–98 | 100 | 100 | 92* | 2.4 s | 1.2 s | 0.002 | 0 ms |
 | Desktop | 100 | 100 | 100 | 92* | 0.7 s | 0.4 s | 0.001 | 0 ms |
 
 \* The only failing audit is the relative canonical.
@@ -195,5 +195,5 @@ Each brought it down from 2.8 s. Getting under 1.8 s would require dropping the 
 - **Paused animations:** the hero animations pause when the hero is off-screen and when the tab is hidden.
 - **Reduced motion:** no animations run, and hover still lights the tents.
 - **Contrast (WCAG 2.2 AA):**
-  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 8.4:1.
+  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 8.4:1. The open description panels measure at least 12:1.
   - Text in the light and dark sections passes; the lowest pair is 4.69:1.
