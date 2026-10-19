@@ -303,7 +303,7 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
   .gc-hero__shade { background: linear-gradient(180deg, rgb(0 12 30 / .8) 0%, rgb(0 12 30 / .62) 26%, rgb(0 12 30 / .18) 46%, rgb(0 12 30 / 0) 62%, rgb(0 12 30 / .3) 100%); }
 
   /* Intro lives in the sky band above the camp. */
-  .gc-hero__intro { max-width: 82rem; padding-block: var(--space-2) 0; }
+  .gc-hero__intro { max-width: 82rem; padding-block: clamp(2rem, 7svh, 4.5rem) 0; }
   .gc-hero__eyebrow { margin-bottom: var(--space-1); }
   .gc-hero__title { font-size: clamp(1.75rem, min(2.85vw, 6svh), 3.5rem); line-height: 1.12; }
 
