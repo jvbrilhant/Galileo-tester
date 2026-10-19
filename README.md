@@ -4,7 +4,7 @@ This is a static demo of the home page of [NOME DO PROJETO], an initiative affil
 
 The visual language follows the current site (galileoinitiative.com):
 
-- the dusk campsite photo;
+- a dusk campsite scene (the client's camp art);
 - Prata for headings and Poppins for UI and body text;
 - teal buttons and an amber accent;
 - navy bands and rounded section edges.
@@ -17,7 +17,7 @@ The visual language follows the current site (galileoinitiative.com):
 │   ├── js/main.js          loaded with `defer`, IIFE, no globals
 │   ├── svg/logo.svg        placeholder logo
 │   ├── fonts/              Prata 400 + Poppins 400/500/600 (woff2, latin, self-hosted)
-│   └── img/                hero photo (WebP, landscape + portrait) and the fire crop
+│   └── img/                hero backdrop, tents (+ glow, thumbs) and campfire (WebP)
 └── README.md
 ```
 
@@ -33,64 +33,48 @@ The visual language follows the current site (galileoinitiative.com):
 
 ## The camp
 
+### Assets
+
+| File | What it is |
+|---|---|
+| `assets/img/camp-bg-{1280,1671}.webp` | The client's dusk photo with its original tents and fire removed (AI inpainting, LaMa) |
+| `assets/img/camp-bg-portrait-{400,530}.webp` | Phones: a crop around the lake, softly blurred (sits under a dark scrim) |
+| `assets/img/tent-{library,study,about}.webp` | Tents cut out of the client's render, colour-graded to the dusk scene (cool ambient, warm key from the fire side, interior light on) |
+| `assets/img/tent-*-glow.webp` | Extra interior light only (transparent), shown on hover/focus with `mix-blend-mode: screen` |
+| `assets/img/tent-*-thumb.webp` | 240px versions for the phone cards |
+| `assets/img/campfire.webp` | The client's fire pit render, cut out and graded (warm light on the logs and stones) |
+
+The three tents are one model, recoloured to match the reference (olive green for Library, grey for Study Groups, orange for About Us). The side icons were redrawn: books for Library, the original group icon for Study Groups, and the project mark for About Us. The mark replaces the lightbulb in the reference, as agreed.
+
 ### Coordinates
 
-On screens of 900px and wider, the hero shows the landscape photo at its natural 3:2 ratio, anchored to the bottom. Each place is positioned in **image coordinates**, so it stays on the photo's ground at every width.
+On screens 900px and wider, the hero shows the landscape photo at its natural ratio (1671×941), anchored to the bottom. Each place is positioned in **image coordinates**, so it stays on the photo's ground at every width:
 
 ```html
-<a class="gc-place gc-cabin gc-cabin--library" style="--x:.33;--y:.745;--w:.13;--lift:1.5" …>
+<a class="gc-place gc-cabin gc-cabin--library" style="--x:.19;--y:.695;--w:.28;--lift:1.5;--sx:-.12" …>
 ```
 
 | Property | Meaning |
 |---|---|
-| `--x` | Horizontal centre of the place, as a fraction of the image width (0–1). |
-| `--y` | Ground-contact line: where the bottom of the art touches the ground (0–1 of the image height). |
-| `--w` | Art width as a fraction of the image width. Further back means smaller. |
-| `--lift` | Gap between the label and the roof, in units of 0.75 rem (the leader-line length). |
-| `--lift-n` | Optional `--lift` override for the compact range (900–1279px). |
+| `--x` | Horizontal centre of the place, as a fraction of the image width (0–1) |
+| `--y` | Ground-contact line: where the bottom of the art touches the ground (0–1 of the image height) |
+| `--w` | Art width as a fraction of the image width. Further back means smaller |
+| `--lift` | Gap between the label and the art, in units of 0.75rem (the length of the leader line) |
+| `--sx` | Horizontal offset of the cast shadow. Negative values push it left, away from the fire |
 
-Current places, in DOM and keyboard order:
+| Place | `--x` | `--y` | `--w` |
+|---|---|---|---|
+| Kitchen Ideas (fire) | .65 | .775 | .165 |
+| Library | .19 | .695 | .28 |
+| Study Groups | .456 | .645 | .215 |
+| About Us | .84 | .672 | .24 |
 
-| Place | `--x` | `--y` | `--w` | Notes |
-|---|---|---|---|---|
-| Kitchen Ideas | .18 | .873 | .1226 | The fire pit in the photo. |
-| Library | .33 | .745 | .13 | Back row, in front of the hammock. |
-| Study Groups | .735 | .905 | .30 | Front right, where the tent was (largest cabin). |
-| About Us | .555 | .75 | .115 | Back row, with the flag. |
+Below 900px, the places stack in DOM order. The fire comes first, followed by three full-width cards, each with a tent thumbnail on the left.
 
-Below 900px, the places stack in DOM order. The fire comes first and large, with its label underneath. The three cabins follow as full-width cards, each with its thumbnail on the left and text on the right.
+### Hover and focus
 
-### Swapping in the final cabin artwork
-
-Each cabin's art lives in `.gc-place__art`. The placeholder is an inline SVG. To replace it, swap the `<svg>` for an image and keep the two ground elements:
-
-```html
-<span class="gc-place__art" aria-hidden="true">
-  <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
-  <img src="assets/img/cabins/library.webp" width="…" height="…" alt="">
-</span>
-```
-
-Asset requirements:
-
-- **Format:** transparent WebP or PNG, about 2× the largest display size. For example, Study Groups is shown at up to about 760px wide at 2560px viewports.
-- **Position:** the cabin base touches the bottom edge of the file, with no empty margin below. That edge is the ground-contact line, `--y`.
-- **Perspective:** match the photo. The camera is at standing height and the horizon is at about 49% of the image height. Viewed from slightly above, light comes from the dusk sky and the fire, on the left.
-- **Hover:** the cabin rises 3px, the contact shadow tightens and the window light brightens on the ground. If you also supply a "lights on" version, it can cross-fade on hover.
-
-After a swap, adjust `--x`, `--y` and `--w` per cabin.
-
-### Backdrop
-
-The backdrop is the hero photo from the current site. The tent was removed digitally: the valley, the bushes, the two tree trunks and the ground were rebuilt from other parts of the same photo. The Study Groups cabin covers that area. The files are:
-
-- `assets/img/camp-dusk-{1280,1920,2528}.webp` — landscape;
-- `assets/img/camp-dusk-portrait-{480,760,1010}.webp` — phones: a left crop, softly blurred, because it sits under a dark scrim;
-- `assets/img/campfire.webp` — the fire crop, used for the flicker layers and for the phone fire.
-
-### Fire
-
-The fire in the photo is the art. Three screen-blended copies of its crop are masked to the flames and flicker at 1.7, 2.3 and 3.1 s. A static radial glow pulses in opacity only, and six embers rise. On hover or focus the flames brighten.
+- **Tents:** the tent rises 3px, the extra interior light fades in, the contact shadow tightens and the light spilling onto the ground brightens. The label turns amber and gets an underline.
+- **Fire:** the flame layers brighten.
 
 ## WordPress conversion
 
@@ -126,9 +110,10 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 |---|---|
 | Project name `[NOME DO PROJETO]` | `<title>`, meta/OG, JSON-LD, `logo.svg`, logo `alt`, footer |
 | Logo and mark | `assets/svg/logo.svg`, `#gc-mark` symbol, inline favicon |
-| Cabin artwork (3) | `.gc-place__art` in the camp (see above) |
+| Tent and fire artwork | `assets/img/tent-*.webp`, `campfire.webp` (see "The camp") |
 | Hero eyebrow, title and subtitle | `.gc-hero__intro` |
 | Camp descriptions (4) | `.gc-place__desc` |
+| Hero backdrop | `assets/img/camp-bg-*.webp` |
 | Pipeline, join and mission texts | the corresponding sections |
 | 3 papers: titles, authors, dates, axes, abstracts, DOIs (`10.xxxx/placeholder.*`), slugs | `.gc-paper-card` (all fictitious) |
 | Affiliation wording | `.gc-about__affiliation` — `<!-- LEGAL: affiliation wording pending SMN validation -->` |
@@ -137,48 +122,61 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 
 ## Deviations from the brief (agreed during the build)
 
-1. **Raster hero backdrop (WebP)** instead of SVG, using the current site's photo. The client requested this.
-2. **The LCP element is the photo** (desktop) or the fire crop (phones), not the `<h1>`. This was agreed earlier: a photo backdrop will always be the largest element.
+1. **Raster hero art (WebP).** The client asked for the backdrop, tents and fire as images instead of SVG.
+2. **The LCP element is the photo on desktop and the hero subtitle on phones**, not the `<h1>`. A photo backdrop is always the largest element on desktop.
 3. **Self-hosted web fonts** (Prata + Poppins, 43 KB in total, `font-display: swap`, two preloads) instead of system fonts, so the demo matches the current site's typography. No third-party requests are made.
-4. **No stars.** The new backdrop is a dusk sky, so stars would read as fake. Ambient motion comes from six fireflies (as on the current site), the fire, the embers and the chimney smoke.
+4. **No stars.** The sky is a dusk sky, so stars would read as fake. Ambient motion comes from six fireflies, the flickering fire and its embers.
 5. **Arc layout from 900px.** Below that, including tablet portrait at 768px, the camp uses the vertical card layout, because labels and descriptions on the arc would not stay legible.
 6. **`<link rel="canonical" href="/">`** is kept as specified. Lighthouse SEO scores 92 because it expects an absolute URL; the WP SEO plugin will output one.
 
 ## Final measurements
 
-**File sizes:**
+**File sizes**
 
 | File | Size | Budget |
 |---|---|---|
-| `index.html` (with inline SVG) | 28.7 KB | ≤ 60 KB ✅ |
-| `assets/css/main.css` | 29.96 KB | ≤ 30 KB ✅ |
+| `index.html` | 23.3 KB | ≤ 60 KB ✅ |
+| `assets/css/main.css` | 28.6 KB | ≤ 30 KB ✅ |
 | `assets/js/main.js` | 3.9 KB | ≤ 8 KB ✅ |
 | Fonts | 43 KB (4 files) | — |
-| Hero photo, one file per viewport | 16–38 KB (phones), 92–282 KB (desktop) | — |
 
-**Requests:** all requests are local. There are none to third parties.
+**Hero images, per viewport**
 
-**Lighthouse 13.5** (headless Chromium over `http-server`):
+| Viewport | What loads | Total |
+|---|---|---|
+| Phone | 15 KB backdrop + 24 KB fire + 3 × 6 KB tent thumbnails | 57 KB |
+| Desktop | 61–90 KB backdrop + 24 KB fire + 3 × 30 KB tents + 3 × 10 KB glows | ≈ 235 KB |
+
+All requests are local; there are no third-party requests.
+
+**Lighthouse 13.5** (headless Chromium over `http-server`)
 
 | Profile | Performance | Accessibility | Best Practices | SEO | LCP | FCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| Mobile (slow 4G, 4× CPU) | 99 | 100 | 100 | 92* | 1.8–2.0 s | 1.4 s | 0.002 | 0 ms |
-| Desktop | 100 | 100 | 100 | 92* | 0.6 s | 0.4 s | 0.001 | 0 ms |
+| Mobile, no-cache server | 97–98 | 100 | 100 | 92* | 2.3–2.5 s | 1.2 s | 0 | 0 ms |
+| Mobile, cache headers | 99 | 100 | 100 | 92* | 2.1 s | 1.2 s | 0 | 0 ms |
+| Desktop | 100 | 100 | 100 | 92* | 0.7 s | 0.3 s | 0.001 | 0 ms |
 
 \* The only failing audit is the relative canonical.
 
-The mobile LCP target is < 1.8 s. It measures 1.8 s on most runs and 2.0 s on some, so it misses the target on some runs. The floor is the render-blocking HTML and CSS plus the brand fonts (FCP is 1.4 s). Removing the font preloads made it worse: LCP 2.0–2.1 s and CLS 0.013.
+**Mobile LCP misses the < 1.8 s target.** On phones the LCP element is the hero subtitle, painted at about 120 ms in the real (unthrottled) run. Lighthouse's slow-4G simulation then models the whole critical path: HTML, CSS, fonts, fire and backdrop. Things already tried:
 
-**Automated checks** (Playwright + Chromium):
+- removing the preload of the fire image;
+- serving small tent thumbnails on phones;
+- skipping the glow layers on phones;
+- setting Poppins to `font-display: optional`.
 
-- **Overflow:** no horizontal overflow at 20 widths from 320 to 2560px.
-- **Camp labels:** no camp label overlaps another label or the hero text at 13 widths from 900 to 2560px.
-- **Keyboard order:** skip link → logo → primary menu → CTA → Kitchen Ideas → Library → Study Groups → About Us → content.
-- **Camp link names:** each accessible name is exactly the visible label; descriptions use `aria-describedby`.
-- **Menu:** `aria-expanded` toggles, Esc closes the menu and returns focus to the button. Without JS the menu is expanded and the header is a solid navy bar.
-- **Demo mode:** the notice appears on click and is cleared after 3 s. With `data-demo` removed, links navigate.
-- **Pausing:** hero animations pause when the hero is out of view or the tab is hidden.
-- **Reduced motion:** no animations; hover still lights the windows.
+Each brought it down from 2.8 s. Getting under 1.8 s would require dropping the self-hosted brand fonts on phones or inlining the critical CSS. That is a decision for the WordPress build: a cache plugin and HTTP/2 push/preload typically handle it.
+
+**Automated checks** (Playwright + Chromium)
+
+- **No horizontal overflow** at 20 widths from 320 to 2560px.
+- **No overlaps:** no camp label overlaps another label or the hero text, at 13 widths from 900 to 2560px.
+- **Keyboard order:** skip link → logo → primary menu → CTA → Kitchen Ideas → Library → Study Groups → About Us → content. Each link's accessible name is exactly its visible label.
+- **Menu:** `aria-expanded` is set correctly, and Esc closes the menu and returns focus. Without JS, the menu is expanded.
+- **Demo mode:** the notice appears and clears after 3 s. With `data-demo` removed, the links navigate.
+- **Paused animations:** the hero animations pause when the hero is off-screen and when the tab is hidden.
+- **Reduced motion:** no animations run, and hover still lights the tents.
 - **Contrast (WCAG 2.2 AA):**
-  - Hero text was measured on the rendered pixels (worst pixel behind each text box, at 390, 1024, 1440 and 1920px). The minimum is 6.9:1.
-  - 27 token pairs in the light and dark sections all pass. The lowest is teal link text on `#f4f7f9`, at 4.69:1.
+  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 8.9:1.
+  - Text in the light and dark sections passes; the lowest pair is 4.69:1.
