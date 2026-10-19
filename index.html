@@ -79,21 +79,21 @@
 <!-- WP: get_template_part('template-parts/home/camp') -->
 <section class="gc-hero" aria-labelledby="gc-hero-title">
   <!--
-    Backdrop: the client's dusk camp photo with its tents and fire removed (WebP).
-    Tents and fire are separate layers below, so they can react to hover/focus.
+    Backdrop: the client's dusk camp art with its tents and fire removed, upscaled 2× (WebP).
+    Tents and fire are separate layers so they can react to hover/focus.
   -->
   <div class="gc-hero__media" aria-hidden="true">
     <picture>
       <source media="(max-width: 899px)" type="image/webp"
-        srcset="assets/img/camp-bg-portrait-400.webp 400w, assets/img/camp-bg-portrait-530.webp 530w"
-        sizes="100vw" width="530" height="941">
-      <img class="gc-hero__image" src="assets/img/camp-bg-1671.webp"
-        srcset="assets/img/camp-bg-1280.webp 1280w, assets/img/camp-bg-1671.webp 1671w"
-        sizes="100vw" width="1671" height="941" alt="">
+        srcset="assets/img/camp-bg-portrait-540.webp 540w, assets/img/camp-bg-portrait-1060.webp 1060w"
+        sizes="100vw" width="1060" height="1882">
+      <img class="gc-hero__image" src="assets/img/camp-bg-1920.webp"
+        srcset="assets/img/camp-bg-1280.webp 1280w, assets/img/camp-bg-1920.webp 1920w, assets/img/camp-bg-2560.webp 2560w, assets/img/camp-bg-3342.webp 3342w"
+        sizes="100vw" width="3342" height="1882" alt="">
     </picture>
     <span class="gc-fireflies">
       <i style="--fx:12%;--fy:62%"></i><i style="--fx:31%;--fy:58%"></i><i style="--fx:58%;--fy:60%"></i>
-      <i style="--fx:76%;--fy:57%"></i><i style="--fx:93%;--fy:66%"></i><i style="--fx:44%;--fy:72%"></i>
+      <i style="--fx:76%;--fy:57%"></i><i style="--fx:93%;--fy:66%"></i><i style="--fx:44%;--fy:76%"></i>
     </span>
   </div>
   <div class="gc-hero__fx" aria-hidden="true"><span class="gc-hero__shade"></span></div>
@@ -106,70 +106,70 @@
 
   <!--
     The camp. DOM/keyboard order: Kitchen Ideas → Library → Study Groups → About Us.
-    Each place sits on the photo's ground via custom properties in IMAGE fractions:
-      --x  horizontal centre (0–1)   --y  ground contact line (0–1)   --w  art width (0–1)
-      --sx cast-shadow offset (negative = shadow falls left, away from the fire)
-    Tent art: tent-*.webp (graded to the scene, interior light on) + tent-*-glow.webp
-    (extra light, added with plus-lighter on hover/focus).
+    ≥900px: each place is pinned to the backdrop photo (object-fit: cover, bottom-anchored)
+    with custom properties in IMAGE fractions:
+      --x  horizontal centre (0–1)   --y  bottom of the art (0–1)   --w  art width (0–1)
+      --ar art height / width        --sx cast-shadow offset (− = left, away from the fire)
+    The label sits on the ground under each element.
   -->
   <div class="gc-camp">
     <ul class="gc-camp__places" role="list">
 
       <li class="gc-camp__item">
-        <a class="gc-place gc-campfire" href="/kitchen-ideas/" style="--x:.65;--y:.775;--w:.165;--lift:.6" aria-labelledby="gc-place-kitchen" aria-describedby="gc-place-kitchen-desc">
-          <span class="gc-place__label">
-            <span class="gc-place__name" id="gc-place-kitchen">Kitchen Ideas</span>
-            <span class="gc-place__desc" id="gc-place-kitchen-desc">Raw hypotheses, open for discussion</span>
-          </span>
+        <a class="gc-place gc-campfire" href="/kitchen-ideas/" style="--x:.652;--y:.77;--w:.24;--ar:.7122" aria-labelledby="gc-place-kitchen" aria-describedby="gc-place-kitchen-desc">
           <span class="gc-place__art gc-campfire__art" aria-hidden="true">
             <span class="gc-campfire__glow"></span>
-            <img class="gc-campfire__img" src="assets/img/campfire.webp" width="480" height="372" alt="">
+            <img class="gc-campfire__img" src="assets/img/campfire-800.webp" srcset="assets/img/campfire-420.webp 420w, assets/img/campfire-800.webp 800w, assets/img/campfire-1200.webp 1200w" sizes="(min-width: 900px) 26vw, 13.5rem" width="800" height="570" alt="">
             <span class="gc-campfire__flame gc-campfire__flame--1"></span>
             <span class="gc-campfire__flame gc-campfire__flame--2"></span>
             <span class="gc-campfire__flame gc-campfire__flame--3"></span>
             <span class="gc-campfire__embers"><i></i><i></i><i></i><i></i><i></i><i></i></span>
           </span>
+          <span class="gc-place__label">
+            <span class="gc-place__name" id="gc-place-kitchen">Kitchen Ideas</span>
+            <span class="gc-place__desc" id="gc-place-kitchen-desc">Raw hypotheses, open for discussion</span>
+          </span>
         </a>
       </li>
 
       <li class="gc-camp__item">
-        <a class="gc-place gc-cabin gc-cabin--library" href="/library/" style="--x:.19;--y:.695;--w:.28;--lift:1.5;--sx:-.12" aria-labelledby="gc-place-library" aria-describedby="gc-place-library-desc">
+        <a class="gc-place gc-cabin gc-cabin--library" href="/library/" style="--x:.189;--y:.73;--w:.32;--ar:.5615;--sx:-.1" aria-labelledby="gc-place-library" aria-describedby="gc-place-library-desc">
+          <span class="gc-place__art" aria-hidden="true">
+            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
+            <img class="gc-place__img" src="assets/img/tent-library-900.webp" srcset="assets/img/tent-library-260.webp 260w, assets/img/tent-library-520.webp 520w, assets/img/tent-library-900.webp 900w, assets/img/tent-library-1400.webp 1400w" sizes="(min-width: 900px) 35vw, 6.5rem" width="900" height="505" alt="" decoding="async">
+            <img class="gc-place__glow" src="assets/img/tent-library-glow.webp" width="520" height="292" alt="" loading="lazy">
+          </span>
           <span class="gc-place__label">
             <span class="gc-place__name" id="gc-place-library">Library</span>
             <span class="gc-place__desc" id="gc-place-library-desc">Peer-reviewed papers and reports</span>
           </span>
-          <span class="gc-place__art" aria-hidden="true">
-            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
-            <picture><source media="(max-width: 899px)" srcset="assets/img/tent-library-thumb.webp"><img class="gc-place__img" src="assets/img/tent-library.webp" width="760" height="374" alt="" decoding="async"></picture>
-            <img class="gc-place__glow" src="assets/img/tent-library-glow.webp" width="380" height="187" alt="" loading="lazy">
-          </span>
         </a>
       </li>
 
       <li class="gc-camp__item">
-        <a class="gc-place gc-cabin gc-cabin--study" href="/study-groups/" style="--x:.456;--y:.645;--w:.215;--lift:1.5;--sx:-.08" aria-labelledby="gc-place-study" aria-describedby="gc-place-study-desc">
+        <a class="gc-place gc-cabin gc-cabin--study" href="/study-groups/" style="--x:.461;--y:.666;--w:.23;--ar:.5615;--sx:-.08" aria-labelledby="gc-place-study" aria-describedby="gc-place-study-desc">
+          <span class="gc-place__art" aria-hidden="true">
+            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
+            <img class="gc-place__img" src="assets/img/tent-study-900.webp" srcset="assets/img/tent-study-260.webp 260w, assets/img/tent-study-520.webp 520w, assets/img/tent-study-900.webp 900w, assets/img/tent-study-1400.webp 1400w" sizes="(min-width: 900px) 25vw, 6.5rem" width="900" height="505" alt="" decoding="async">
+            <img class="gc-place__glow" src="assets/img/tent-study-glow.webp" width="520" height="292" alt="" loading="lazy">
+          </span>
           <span class="gc-place__label">
             <span class="gc-place__name" id="gc-place-study">Study Groups</span>
             <span class="gc-place__desc" id="gc-place-study-desc">Private groups building papers together</span>
           </span>
-          <span class="gc-place__art" aria-hidden="true">
-            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
-            <picture><source media="(max-width: 899px)" srcset="assets/img/tent-study-thumb.webp"><img class="gc-place__img" src="assets/img/tent-study.webp" width="760" height="374" alt="" decoding="async"></picture>
-            <img class="gc-place__glow" src="assets/img/tent-study-glow.webp" width="380" height="187" alt="" loading="lazy">
-          </span>
         </a>
       </li>
 
       <li class="gc-camp__item">
-        <a class="gc-place gc-cabin gc-cabin--about" href="/about/" style="--x:.84;--y:.672;--w:.24;--lift:1.5;--sx:.12" aria-labelledby="gc-place-about" aria-describedby="gc-place-about-desc">
+        <a class="gc-place gc-cabin gc-cabin--about" href="/about/" style="--x:.835;--y:.695;--w:.253;--ar:.5615;--sx:.1" aria-labelledby="gc-place-about" aria-describedby="gc-place-about-desc">
+          <span class="gc-place__art" aria-hidden="true">
+            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
+            <img class="gc-place__img" src="assets/img/tent-about-900.webp" srcset="assets/img/tent-about-260.webp 260w, assets/img/tent-about-520.webp 520w, assets/img/tent-about-900.webp 900w, assets/img/tent-about-1400.webp 1400w" sizes="(min-width: 900px) 28vw, 6.5rem" width="900" height="505" alt="" decoding="async">
+            <img class="gc-place__glow" src="assets/img/tent-about-glow.webp" width="520" height="292" alt="" loading="lazy">
+          </span>
           <span class="gc-place__label">
             <span class="gc-place__name" id="gc-place-about">About Us</span>
             <span class="gc-place__desc" id="gc-place-about-desc">Who we are and our affiliation</span>
-          </span>
-          <span class="gc-place__art" aria-hidden="true">
-            <span class="gc-place__shadow"></span><span class="gc-place__light"></span>
-            <picture><source media="(max-width: 899px)" srcset="assets/img/tent-about-thumb.webp"><img class="gc-place__img" src="assets/img/tent-about.webp" width="760" height="374" alt="" decoding="async"></picture>
-            <img class="gc-place__glow" src="assets/img/tent-about-glow.webp" width="380" height="187" alt="" loading="lazy">
           </span>
         </a>
       </li>

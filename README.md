@@ -17,7 +17,7 @@ The visual language follows the current site (galileoinitiative.com):
 │   ├── js/main.js          loaded with `defer`, IIFE, no globals
 │   ├── svg/logo.svg        placeholder logo
 │   ├── fonts/              Prata 400 + Poppins 400/500/600 (woff2, latin, self-hosted)
-│   └── img/                hero backdrop, tents (+ glow, thumbs) and campfire (WebP)
+│   └── img/                hero backdrop, tents (+ hover glow) and campfire, in several widths (WebP)
 └── README.md
 ```
 
@@ -35,46 +35,64 @@ The visual language follows the current site (galileoinitiative.com):
 
 ### Assets
 
+All images are WebP, served through `srcset`, so retina screens get sharp versions.
+
 | File | What it is |
 |---|---|
-| `assets/img/camp-bg-{1280,1671}.webp` | The client's dusk photo with its original tents and fire removed (AI inpainting, LaMa) |
-| `assets/img/camp-bg-portrait-{400,530}.webp` | Phones: a crop around the lake, softly blurred (sits under a dark scrim) |
-| `assets/img/tent-{library,study,about}.webp` | Tents cut out of the client's render, colour-graded to the dusk scene (cool ambient, warm key from the fire side, interior light on) |
-| `assets/img/tent-*-glow.webp` | Extra interior light only (transparent), shown on hover/focus with `mix-blend-mode: screen` |
-| `assets/img/tent-*-thumb.webp` | 240px versions for the phone cards |
-| `assets/img/campfire.webp` | The client's fire pit render, cut out and graded (warm light on the logs and stones) |
+| `assets/img/camp-bg-{1280,1920,2560,3342}.webp` | The client's dusk photo. Its original tents and fire were removed (LaMa inpainting), then it was upscaled 2× (EDSR super-resolution) |
+| `assets/img/camp-bg-portrait-{540,1060}.webp` | Phone version: a crop around the lake and fire, softly blurred because it sits under a scrim |
+| `assets/img/tent-{library,study,about}-{260,520,900,1400}.webp` | Tents, built from the client's transparent tent PNG |
+| `assets/img/tent-*-glow.webp` | Extra interior light, shown on hover and focus (`mix-blend-mode: screen`) |
+| `assets/img/campfire-{420,800,1200}.webp` | The client's fire pit PNG, graded: dusk ambient, firelight on logs and stones, ember glow |
+| `assets/img/campfire-flame.webp` | The flames only. Three copies of it flicker at 1.7, 2.3 and 3.1 s |
 
-The three tents are one model, recoloured to match the reference (olive green for Library, grey for Study Groups, orange for About Us). The side icons were redrawn: books for Library, the original group icon for Study Groups, and the project mark for About Us. The mark replaces the lightbulb in the reference, as agreed.
+How the tents were built:
 
-### Coordinates
+- **Fabric colour:** recoloured to the reference. Library is olive, Study Groups grey and About Us orange.
+- **Side icons:** books for Library, the original group icon for Study Groups, and the project mark for About Us (in place of the lightbulb).
+- **Lighting:** graded to the dusk scene, with cool ambient light and a warm key from the fire side. The interior is lamp-lit through the door.
+- **Orientation:** all three keep the door on the right, as in the reference.
 
-On screens 900px and wider, the hero shows the landscape photo at its natural ratio (1671×941), anchored to the bottom. Each place is positioned in **image coordinates**, so it stays on the photo's ground at every width:
+### Framing and coordinates
+
+**Screens 900px and wider.** The hero fills the viewport, clamped between 560px and 61vw, and at least 50vw tall on ultra-wide screens. The photo is drawn with `object-fit: cover`, anchored to the bottom.
+
+The hero is a size container (`container-type: size`). It exposes the photo's rendered size:
+
+- `--img-w: max(100cqw, 100cqh × 1.7758)`
+- `--img-h`
+
+Each place is pinned to the same spot of the photo with values in **image fractions**, so the tents stay on the ground at any width or height:
 
 ```html
-<a class="gc-place gc-cabin gc-cabin--library" style="--x:.19;--y:.695;--w:.28;--lift:1.5;--sx:-.12" …>
+<a class="gc-place gc-cabin gc-cabin--library" style="--x:.189;--y:.73;--w:.32;--ar:.5615;--sx:-.1" …>
 ```
 
 | Property | Meaning |
 |---|---|
-| `--x` | Horizontal centre of the place, as a fraction of the image width (0–1) |
-| `--y` | Ground-contact line: where the bottom of the art touches the ground (0–1 of the image height) |
-| `--w` | Art width as a fraction of the image width. Further back means smaller |
-| `--lift` | Gap between the label and the art, in units of 0.75rem (the length of the leader line) |
-| `--sx` | Horizontal offset of the cast shadow. Negative values push it left, away from the fire |
+| `--x` | Horizontal centre of the element (0–1 of the photo width) |
+| `--y` | Bottom of the art, i.e. the stake tips or the base of the stones (0–1 of the photo height) |
+| `--w` | Width of the art (0–1 of the photo width) |
+| `--ar` | Art height ÷ width: 0.5615 for the tents, 0.7122 for the fire |
+| `--sx` | Offset of the cast shadow. Negative values push it left, away from the fire |
+
+Each place's values are measured on the client's reference composition:
 
 | Place | `--x` | `--y` | `--w` |
 |---|---|---|---|
-| Kitchen Ideas (fire) | .65 | .775 | .165 |
-| Library | .19 | .695 | .28 |
-| Study Groups | .456 | .645 | .215 |
-| About Us | .84 | .672 | .24 |
+| Kitchen Ideas (fire) | .652 | .77 | .24 |
+| Library | .189 | .73 | .32 |
+| Study Groups | .461 | .666 | .23 |
+| About Us | .835 | .695 | .253 |
 
-Below 900px, the places stack in DOM order. The fire comes first, followed by three full-width cards, each with a tent thumbnail on the left.
+**Labels.** The labels sit on the ground under each element, which keeps the sky clear for the title. The Study Groups and About Us labels lean away from the fire, so they never cover the stones. From 900 to 1199px the labels are compact and the eyebrow line is hidden.
+
+**Below 900px.** The fire comes first, followed by three full-width cards, each with a tent on the left.
 
 ### Hover and focus
 
-- **Tents:** the tent rises 3px, the extra interior light fades in, the contact shadow tightens and the light spilling onto the ground brightens. The label turns amber and gets an underline.
-- **Fire:** the flame layers brighten.
+- **Tents:** the tent rises 3px, the extra interior light fades in, the cast shadow tightens and the door light on the ground brightens. The label turns amber and gets an underline.
+- **Fire:** the flames brighten.
 
 ## WordPress conversion
 
@@ -135,34 +153,33 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 
 | File | Size | Budget |
 |---|---|---|
-| `index.html` | 23.3 KB | ≤ 60 KB ✅ |
-| `assets/css/main.css` | 28.6 KB | ≤ 30 KB ✅ |
+| `index.html` | 23.9 KB | ≤ 60 KB ✅ |
+| `assets/css/main.css` | 28.9 KB | ≤ 30 KB ✅ |
 | `assets/js/main.js` | 3.9 KB | ≤ 8 KB ✅ |
 | Fonts | 43 KB (4 files) | — |
 
-**Hero images, per viewport**
+**Hero images per viewport**
 
 | Viewport | What loads | Total |
 |---|---|---|
-| Phone | 15 KB backdrop + 24 KB fire + 3 × 6 KB tent thumbnails | 57 KB |
-| Desktop | 61–90 KB backdrop + 24 KB fire + 3 × 30 KB tents + 3 × 10 KB glows | ≈ 235 KB |
+| Phone | 16–37 KB backdrop + 23 KB fire + 3 × 7–18 KB tents | ≈ 60–110 KB |
+| Desktop 1440px @1x | 98 KB backdrop + 54 KB fire + 3 × 18–38 KB tents + 3 × 21 KB glows | ≈ 300 KB |
 
-All requests are local; there are no third-party requests.
+All requests are local. There are no third-party requests.
 
 **Lighthouse 13.5** (headless Chromium over `http-server`)
 
 | Profile | Performance | Accessibility | Best Practices | SEO | LCP | FCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| Mobile, no-cache server | 97–98 | 100 | 100 | 92* | 2.3–2.5 s | 1.2 s | 0 | 0 ms |
-| Mobile, cache headers | 99 | 100 | 100 | 92* | 2.1 s | 1.2 s | 0 | 0 ms |
-| Desktop | 100 | 100 | 100 | 92* | 0.7 s | 0.3 s | 0.001 | 0 ms |
+| Mobile (slow 4G, 4× CPU) | 97–98 | 100 | 100 | 92* | 2.4 s | 1.4 s | 0.002 | 0 ms |
+| Desktop | 100 | 100 | 100 | 92* | 0.7 s | 0.4 s | 0.001 | 0 ms |
 
 \* The only failing audit is the relative canonical.
 
 **Mobile LCP misses the < 1.8 s target.** On phones the LCP element is the hero subtitle, painted at about 120 ms in the real (unthrottled) run. Lighthouse's slow-4G simulation then models the whole critical path: HTML, CSS, fonts, fire and backdrop. Things already tried:
 
 - removing the preload of the fire image;
-- serving small tent thumbnails on phones;
+- serving small tent images on phones (through `srcset`);
 - skipping the glow layers on phones;
 - setting Poppins to `font-display: optional`.
 
@@ -171,12 +188,12 @@ Each brought it down from 2.8 s. Getting under 1.8 s would require dropping the 
 **Automated checks** (Playwright + Chromium)
 
 - **No horizontal overflow** at 20 widths from 320 to 2560px.
-- **No overlaps:** no camp label overlaps another label or the hero text, at 13 widths from 900 to 2560px.
+- **Framing:** checked at 12 desktop viewports from 900×700 to 2560×1440, including 2560×1080. In every one, the whole camp is visible, no element is cut off, and no label overlaps another label, the fire or the hero text.
 - **Keyboard order:** skip link → logo → primary menu → CTA → Kitchen Ideas → Library → Study Groups → About Us → content. Each link's accessible name is exactly its visible label.
 - **Menu:** `aria-expanded` is set correctly, and Esc closes the menu and returns focus. Without JS, the menu is expanded.
 - **Demo mode:** the notice appears and clears after 3 s. With `data-demo` removed, the links navigate.
 - **Paused animations:** the hero animations pause when the hero is off-screen and when the tab is hidden.
 - **Reduced motion:** no animations run, and hover still lights the tents.
 - **Contrast (WCAG 2.2 AA):**
-  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 8.9:1.
+  - Hero text is measured on the rendered pixels at 390, 1024, 1440 and 1920px. The minimum is 6.7:1.
   - Text in the light and dark sections passes; the lowest pair is 4.69:1.
