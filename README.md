@@ -101,7 +101,7 @@ Each block sits between `<!-- WP: … -->` and `<!-- /WP: … -->` comments. `<b
 | Section | Template part | Data: ACF fields / taxonomies | Menu location |
 |---|---|---|---|
 | Skip link + header + SVG sprite | `header.php` | — | `primary` |
-| Hero / camp | `template-parts/home/camp.php` | ACF options: title, subtitle, backdrop image. Repeater `camp_places`: label, description, link, art image, `x`, `y`, `w`, `lift`. | — |
+| Hero / camp | `template-parts/home/camp.php` | ACF options: eyebrow, title, backdrop image. Repeater `camp_places`: label, description, link, art image, `x`, `y`, `w`, `lift`. | — |
 | From Idea to Publication | `template-parts/home/pipeline.php` | Optional repeater `pipeline_stages`: title, text, link, icon. | — |
 | Latest from the Library | `template-parts/home/latest-papers.php` → `template-parts/cards/paper-card.php` | CPT `paper`: `abstract` (textarea), `doi` (text), `authors` (repeater: `name`, `affiliation`, `orcid`), `publication_date` (date). Taxonomy `thematic_axis`. | — |
 | How to Join a Study Group | `template-parts/home/join.php` | Optional repeater `join_steps` + CTA link. | — |
@@ -141,7 +141,7 @@ The palette was sampled from the current site. The teal is darkened from `#00839
 ## Deviations from the brief (agreed during the build)
 
 1. **Raster hero art (WebP).** The client asked for the backdrop, tents and fire as images instead of SVG.
-2. **The LCP element is the photo on desktop and the hero subtitle on phones**, not the `<h1>`. A photo backdrop is always the largest element on desktop.
+2. **On desktop the LCP element is the photo, not the `<h1>`**, because a photo backdrop is always the largest element. On phones the LCP element is the `<h1>`, as the brief asked.
 3. **Self-hosted web fonts** (Prata + Poppins, 43 KB in total, `font-display: swap`, two preloads) instead of system fonts, so the demo matches the current site's typography. No third-party requests are made.
 4. **No stars.** The sky is a dusk sky, so stars would read as fake. Ambient motion comes from six fireflies, the flickering fire and its embers.
 5. **Arc layout from 900px.** Below that, including tablet portrait at 768px, the camp uses the vertical card layout, because labels and descriptions on the arc would not stay legible.
@@ -171,12 +171,12 @@ All requests are local. There are no third-party requests.
 
 | Profile | Performance | Accessibility | Best Practices | SEO | LCP | FCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| Mobile (slow 4G, 4× CPU) | 97–98 | 100 | 100 | 92* | 2.4 s | 1.4 s | 0.002 | 0 ms |
+| Mobile (slow 4G, 4× CPU) | 98 | 100 | 100 | 92* | 2.4 s | 1.2 s | 0.002 | 0 ms |
 | Desktop | 100 | 100 | 100 | 92* | 0.7 s | 0.4 s | 0.001 | 0 ms |
 
 \* The only failing audit is the relative canonical.
 
-**Mobile LCP misses the < 1.8 s target.** On phones the LCP element is the hero subtitle, painted at about 120 ms in the real (unthrottled) run. Lighthouse's slow-4G simulation then models the whole critical path: HTML, CSS, fonts, fire and backdrop. Things already tried:
+**Mobile LCP misses the < 1.8 s target.** On phones the LCP element is the `<h1>`, painted at about 120 ms in the real (unthrottled) run. Lighthouse's slow-4G simulation then models the whole critical path: HTML, CSS, fonts, fire and backdrop. Things already tried:
 
 - removing the preload of the fire image;
 - serving small tent images on phones (through `srcset`);
