@@ -121,6 +121,7 @@
   .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
   .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
   .gc-hero .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-desc-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) color-mix(in srgb, var(--gc-btn-border-hover) 56%, transparent); border-radius: var(--gc-btn-radius); opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+  .gc-hero .gc-place--up .gc-place__desc { top: auto; bottom: calc(100% + 6px); transform: translate(-50%, 6px); }
   .gc-hero .gc-place:is(:hover, :focus-visible) { z-index: 5; }
   .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 

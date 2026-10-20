@@ -329,6 +329,7 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
   .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
   /* Only the name shows at rest; the description slides out below it on hover/focus. */
   .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: rgb(0 12 30 / .92); border: 1px solid rgb(255 200 61 / .45); border-radius: 10px; opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out); }
+  .gc-place--up .gc-place__desc { top: auto; bottom: calc(100% + 6px); transform: translate(-50%, 6px); }
   .gc-place:is(:hover, :focus-visible) { z-index: 5; }
   .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 
