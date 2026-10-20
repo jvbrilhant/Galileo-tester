@@ -167,7 +167,7 @@ function gc_camp_hero_render( $args = array() ) {
 	<div class="gc-camp">
 		<ul class="gc-camp__places" role="list">
 			<li class="gc-camp__item">
-				<a class="gc-place gc-campfire"<?php echo gc_camp_hero_link_attrs( $places['kitchen'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:.6;--y:.865;--w:.104;--ar:.7122" aria-labelledby="<?php echo esc_attr( $uid ); ?>-kitchen" aria-describedby="<?php echo esc_attr( $uid ); ?>-kitchen-desc">
+				<a class="gc-place gc-campfire"<?php echo gc_camp_hero_link_attrs( $places['kitchen'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:.6;--y:.85;--w:.104;--ar:.7122" aria-labelledby="<?php echo esc_attr( $uid ); ?>-kitchen" aria-describedby="<?php echo esc_attr( $uid ); ?>-kitchen-desc">
 					<span class="gc-place__art gc-campfire__art" aria-hidden="true">
 						<span class="gc-campfire__glow"></span>
 						<img class="gc-campfire__img" src="<?php echo esc_url( $img . 'campfire-800.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'campfire', array( 420, 800 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="(min-width: 900px) 12vw, 13.5rem" width="800" height="570" alt="">

@@ -61,18 +61,6 @@
     }
 
     document.addEventListener('visibilitychange', update);
-
-    // Descriptions open below the label; flip them up if the hero's bottom edge would cut them off.
-    function place(event) {
-      var el = event.target.closest && event.target.closest('.gc-place');
-      var desc = el && el.querySelector('.gc-place__desc');
-      if (!desc || getComputedStyle(desc).position !== 'absolute') return;
-      var label = desc.parentNode.getBoundingClientRect();
-      el.classList.toggle('gc-place--up', label.bottom + desc.offsetHeight + 14 > hero.getBoundingClientRect().bottom);
-    }
-
-    hero.addEventListener('pointerover', place);
-    hero.addEventListener('focusin', place);
   }
 
   /**

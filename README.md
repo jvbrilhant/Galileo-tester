@@ -80,7 +80,7 @@ The ground of the photo was mapped and every element stands on the dirt clearing
 
 | Place | `--x` | `--y` | `--w` |
 |---|---|---|---|
-| Kitchen Ideas (fire) | .60 | .865 | .104 |
+| Kitchen Ideas (fire) | .60 | .85 | .104 |
 | Library | .235 | .815 | .25 |
 | Study Groups | .445 | .735 | .19 |
 | About Us | .80 | .80 | .235 |

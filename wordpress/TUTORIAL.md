@@ -77,7 +77,6 @@ Na aba **Estilo → Botões** você ajusta as plaquinhas com os nomes que ficam 
 
 - **Cor de fundo** e **Cor de fundo no hover**.
 - **Opacidade do fundo**: vai de 0 (transparente) a 1 (sólido). Só o fundo fica transparente; o texto continua legível.
-- **Opacidade do fundo da descrição**: o mesmo, para a caixinha que aparece no hover.
 - **Borda**: estilo (sólida, tracejada, pontilhada, dupla ou sem borda), espessura, cor e cor no hover.
 - **Arredondamento** dos cantos.
 - **Espaçamento interno**: o padding dos botões, ajustável por dispositivo.

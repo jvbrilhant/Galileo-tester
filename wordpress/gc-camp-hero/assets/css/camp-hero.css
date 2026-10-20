@@ -17,7 +17,6 @@
   --gc-btn-bg: #000c1e;
   --gc-btn-bg-a: .74;
   --gc-btn-bg-hover: var(--gc-btn-bg);
-  --gc-btn-desc-a: .92;
   --gc-btn-border-w: 1px;
   --gc-btn-border-style: solid;
   --gc-btn-border: rgb(255 255 255 / .18);
@@ -117,13 +116,15 @@
   }
 
   /* Label = a small plaque on the ground; only the name shows at rest. */
-  .gc-hero .gc-place__label { position: relative; width: max-content; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); }
-  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
+  /* Label = a small plaque on the ground. At rest only the name shows; on hover/focus the
+     plaque widens a little and the description opens inside it, under the name. */
+  .gc-hero .gc-place__label { position: relative; width: max-content; min-width: 0; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); transition: min-width var(--gc-dur) var(--gc-ease), background-color var(--gc-dur) var(--gc-ease), border-color var(--gc-dur) var(--gc-ease); }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { min-width: var(--gc-desc-w, 12.5rem); background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
   .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
-  .gc-hero .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-desc-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) color-mix(in srgb, var(--gc-btn-border-hover) 56%, transparent); border-radius: var(--gc-btn-radius); opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
-  .gc-hero .gc-place--up .gc-place__desc { top: auto; bottom: calc(100% + 6px); transform: translate(-50%, 6px); }
+  /* contain: inline-size keeps the text from widening the plaque; it wraps to the plaque's width. */
+  .gc-hero .gc-place__desc { contain: inline-size; max-height: 0; margin: 0; overflow: hidden; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; opacity: 0; transition: max-height var(--gc-dur) var(--gc-ease), margin-top var(--gc-dur) var(--gc-ease), opacity var(--gc-dur) var(--gc-ease); }
   .gc-hero .gc-place:is(:hover, :focus-visible) { z-index: 5; }
-  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { max-height: 6em; margin-top: .375rem; opacity: 1; }
 
   .gc-hero .gc-place__art { width: 100%; }
   .gc-hero .gc-cabin, .gc-hero .gc-cabin:is(:hover, :focus-visible) { padding: 0; background: none; border: 0; }
@@ -135,7 +136,8 @@
   .gc-hero .gc-hero__eyebrow { display: none; }
   .gc-hero .gc-place__label { padding: .5rem .75rem; }
   .gc-hero .gc-place__name { font-size: .875rem; }
-  .gc-hero .gc-place__desc { max-width: 11rem; font-size: .75rem; line-height: 1.35; }
+  .gc-hero .gc-place__label { --gc-desc-w: 10.5rem; }
+  .gc-hero .gc-place__desc { font-size: .75rem; line-height: 1.35; }
 }
 
 /* Campfire: graded asset + three screen-blended flame copies (1.7/2.3/3.1s). */

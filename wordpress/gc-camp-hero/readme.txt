@@ -20,7 +20,8 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 == Changelog ==
 
 = 1.3.1 =
-* Hover descriptions open above the label when there is no room below (no longer cut off at the bottom of the hero).
+* Hover: the description now opens inside the plaque, under the name (the plaque widens a little). Removed the separate description-background opacity control.
+* Fire moved slightly up.
 
 = 1.3.0 =
 * Fireflies: on/off, count (1-60) and speed.

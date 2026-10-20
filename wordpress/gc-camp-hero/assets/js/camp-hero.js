@@ -1,6 +1,5 @@
 /**
- * Camp Hero: pauses the hero animations while the hero is off-screen or the tab is hidden,
- * and opens a place's description above its label when there is no room below it.
+ * Camp Hero: pauses the hero animations while the hero is off-screen or the tab is hidden.
  * Progressive enhancement only; the hero works without this file.
  */
 (function () {
@@ -15,17 +14,6 @@
       new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; update(); }).observe(hero);
     }
     document.addEventListener('visibilitychange', update);
-
-    // Descriptions open below the label; flip them up if they would be cut off by the hero's bottom edge.
-    function place(e) {
-      var el = e.target.closest && e.target.closest('.gc-place');
-      var desc = el && el.querySelector('.gc-place__desc');
-      if (!desc || getComputedStyle(desc).position !== 'absolute') return;
-      var label = desc.parentNode.getBoundingClientRect();
-      el.classList.toggle('gc-place--up', label.bottom + desc.offsetHeight + 14 > hero.getBoundingClientRect().bottom);
-    }
-    hero.addEventListener('pointerover', place);
-    hero.addEventListener('focusin', place);
   }
 
   function scan() { document.querySelectorAll('.gc-hero').forEach(init); }

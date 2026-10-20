@@ -212,16 +212,6 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 			)
 		);
 		$this->add_control(
-			'btn_desc_opacity',
-			array(
-				'label'     => 'Opacidade do fundo da descrição',
-				'type'      => \Elementor\Controls_Manager::SLIDER,
-				'range'     => array( 'px' => array( 'min' => 0, 'max' => 1, 'step' => .01 ) ),
-				'default'   => array( 'size' => .92 ),
-				'selectors' => array( $hero => '--gc-btn-desc-a: {{SIZE}};' ),
-			)
-		);
-		$this->add_control(
 			'btn_border_heading',
 			array(
 				'label'     => 'Borda',

@@ -324,14 +324,14 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
   }
 
   /* Label = a small plaque on the ground, under the element. */
-  .gc-place__label { position: relative; width: max-content; padding: .625rem 1rem; text-align: center; background: var(--color-scrim); border: 1px solid rgb(255 255 255 / .18); border-radius: 10px; }
-  .gc-place:is(:hover, :focus-visible) .gc-place__label { border-color: rgb(255 200 61 / .8); }
+  /* Label = a small plaque on the ground. On hover/focus it widens and the description opens inside it. */
+  .gc-place__label { position: relative; width: max-content; min-width: 0; padding: .625rem 1rem; text-align: center; background: var(--color-scrim); border: 1px solid rgb(255 255 255 / .18); border-radius: 10px; transition: min-width var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out); }
+  .gc-place:is(:hover, :focus-visible) .gc-place__label { min-width: var(--desc-w, 12.5rem); border-color: rgb(255 200 61 / .8); }
   .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
-  /* Only the name shows at rest; the description slides out below it on hover/focus. */
-  .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: rgb(0 12 30 / .92); border: 1px solid rgb(255 200 61 / .45); border-radius: 10px; opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out); }
-  .gc-place--up .gc-place__desc { top: auto; bottom: calc(100% + 6px); transform: translate(-50%, 6px); }
+  /* contain: inline-size keeps the text from widening the plaque; it wraps to the plaque's width. */
+  .gc-place__desc { contain: inline-size; max-height: 0; margin: 0; overflow: hidden; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; opacity: 0; transition: max-height var(--duration-base) var(--ease-out), margin-top var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out); }
   .gc-place:is(:hover, :focus-visible) { z-index: 5; }
-  .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
+  .gc-place:is(:hover, :focus-visible) .gc-place__desc { max-height: 6em; margin-top: .375rem; opacity: 1; }
 
   .gc-place__art { width: 100%; }
   .gc-cabin { padding: 0; background: none; border: 0; }
@@ -343,7 +343,8 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
   .gc-hero__eyebrow { display: none; }
   .gc-place__label { padding: .5rem .75rem; }
   .gc-place__name { font-size: .875rem; }
-  .gc-place__desc { max-width: 11rem; font-size: .75rem; line-height: 1.35; }
+  .gc-place__label { --desc-w: 10.5rem; }
+  .gc-place__desc { font-size: .75rem; line-height: 1.35; }
 }
 
 /* --- Campfire (graded asset + three screen-blended flame copies flickering at 1.7/2.3/3.1s) */
