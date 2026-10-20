@@ -71,11 +71,24 @@ No painel do widget, cada parte tem sua seção:
 
 Os links já vêm preenchidos com `/kitchen-ideas/`, `/library/`, `/study-groups/` e `/about/`.
 
-### 5. SEO: tag do título
+### 5. Trocar fontes e cores
+
+Na aba **Estilo** do widget há quatro seções, uma para cada tipo de texto:
+
+- **Linha de destaque**
+- **Título**
+- **Nomes (Library, Study Groups…)**
+- **Descrições (hover)**
+
+Em cada seção, use **Tipografia** para escolher fonte, tamanho (por dispositivo), peso, espaçamento etc. As fontes do Google ou as fontes globais do seu Kit carregam automaticamente. Use **Cor** para mudar a cor do texto. Os nomes têm também **Cor no hover**; se você não definir uma, eles continuam ficando âmbar ao passar o mouse.
+
+Campos deixados em branco mantêm o visual original (Prata nos títulos e Poppins no resto).
+
+### 6. SEO: tag do título
 
 O título do hero vem como **H1**. Se a página já tiver outro H1, como o título do tema, mude a **Tag do título** para **H2** ou desative o título da página: em **Configurações da página → Ocultar título**, ou use o modelo de página **Elementor Largura Total**.
 
-### 6. Publicar e testar
+### 7. Publicar e testar
 
 Publique a página e confira:
 
@@ -97,7 +110,7 @@ Pelo shortcode dá para mudar a linha de destaque, o título, a tag e o cabeçal
 
 ## Perguntas frequentes
 
-- **Preciso das fontes Prata e Poppins no site?** Não. O plugin já traz as duas, hospedadas localmente.
+- **Preciso das fontes Prata e Poppins no site?** Não. O plugin já traz as duas, hospedadas localmente. Para usar outras fontes, veja o passo 5.
 - **Funciona com qualquer tema?** Sim. Todo o CSS do hero é isolado sob `.gc-hero`. Testei com o tema **Hello Elementor**.
 - **Posso trocar as imagens?** Sim. Substitua os arquivos em `wp-content/plugins/gc-camp-hero/assets/img/`, mantendo os mesmos nomes e proporções. As posições das barracas ficam em `includes/render.php`, na lista `$tents`; os valores são frações da foto de fundo.
 - **Animações e acessibilidade:** as animações param quando o hero sai da tela ou a aba fica oculta, e também com "reduzir movimento" ativado no sistema. Os links funcionam pelo teclado.
