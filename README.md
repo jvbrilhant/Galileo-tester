@@ -85,7 +85,7 @@ The ground of the photo was mapped and every element stands on the dirt clearing
 | Study Groups | .445 | .735 | .19 |
 | About Us | .80 | .80 | .235 |
 
-**Labels.** A label sits on the ground under each element and shows only the category name, in Poppins (sans-serif) with generous vertical padding. On hover or keyboard focus, the description slides out below it, animated with opacity and transform only. It is always exposed to screen readers through `aria-describedby`. Phones keep the description visible in the cards, because they have no hover. From 900 to 1199px the labels are compact and the eyebrow line is hidden.
+**Labels.** A label sits on the ground under each element and shows only the category name, in Poppins (sans-serif) with generous vertical padding. On hover or keyboard focus, the plaque grows downward and the description fades in inside it, under the name (the plaque takes its open width at once, so the text never re-wraps while it appears). It is always exposed to screen readers through `aria-describedby`. Phones keep the description visible in the cards, because they have no hover. From 900 to 1199px the labels are compact and the eyebrow line is hidden.
 
 **Below 900px.** The fire comes first, followed by three full-width cards, each with a tent on the left.
 

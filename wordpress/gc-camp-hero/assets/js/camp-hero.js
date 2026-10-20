@@ -11,7 +11,7 @@
     var inView = true;
     function update() { hero.classList.toggle('is-paused', !inView || document.hidden); }
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; update(); }).observe(hero);
+      new IntersectionObserver(function (entries) { inView = entries[entries.length - 1].isIntersecting; update(); }).observe(hero);
     }
     document.addEventListener('visibilitychange', update);
   }

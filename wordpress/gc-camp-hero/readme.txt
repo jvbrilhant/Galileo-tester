@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,13 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.4.1 =
+* Fix: an emptied description is no longer replaced by the default text (it is hidden, along with its aria-describedby). An emptied name or link still falls back to the default.
+* Fix: clearing the firefly Quantidade slider no longer turns the fireflies off (it falls back to 6).
+* Fix: Botões → Espaçamento interno no longer pads the text inside the phone cards.
+* Hero height: empty by default = the full screen (100svh on phones, so nothing starts under the browser bars).
+* Animation pause: uses the latest IntersectionObserver record.
 
 = 1.4.0 =
 * Hero height: responsive control (Texto inicial → Altura do hero, vh or px, per device), default 100vh; shortcode attributes height and height_mobile. Desktop keeps a minimum so the tents never climb into the title; on very tall heroes the photo stays bottom-anchored and fades into the sky colour. On phones the value is a minimum height.

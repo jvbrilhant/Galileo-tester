@@ -55,7 +55,7 @@
 
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) {
-        inView = entries[0].isIntersecting;
+        inView = entries[entries.length - 1].isIntersecting; // the latest record wins
         update();
       }).observe(hero);
     }

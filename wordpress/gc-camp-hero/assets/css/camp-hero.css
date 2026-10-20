@@ -1,7 +1,7 @@
 /* ==========
    Camp Hero — styles for the [gc_camp_hero] shortcode / "Camp Hero" Elementor widget.
    Everything is scoped under .gc-hero so theme and Elementor kit styles cannot leak in.
-   Motion uses transform/opacity only; camp-hero.js toggles .is-paused when off-screen.
+   Looping motion uses transform/opacity only; camp-hero.js toggles .is-paused when off-screen.
    ========== */
 
 @font-face { font-family: "GC Prata"; src: url("../fonts/prata-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
@@ -30,7 +30,7 @@
   --gc-overlay-offset: 0px;  /* header overlays the hero: push the intro down by its height */
   --gc-header-space: 0px;    /* header sits above the hero: shrink the hero so it fits the screen */
   /* Hero height (widget: Texto inicial → Altura do hero). --gc-hero-h-m is the shortcode's phone value. */
-  --gc-hero-h: 100vh;
+  --gc-hero-h: 100svh; /* svh: the screen with the mobile browser bars showing, so nothing starts hidden under them */
   --gc-radius: 32px;
 
   position: relative;
@@ -134,7 +134,7 @@
      the name. The width is not animated, so the text never re-wraps while it appears. On the way
      out the width waits until the text has collapsed: narrowing first would re-wrap the text,
      make the plaque taller and pull it back under a cursor resting just below it (hover loop). */
-  .gc-hero .gc-place__label { position: relative; width: max-content; min-width: 0; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); transition: min-width 0s var(--gc-dur), background-color var(--gc-dur) var(--gc-ease), border-color var(--gc-dur) var(--gc-ease); }
+  .gc-hero .gc-place__label { position: relative; width: max-content; min-width: 0; padding: var(--gc-label-pad, .625rem 1rem); text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); transition: min-width 0s var(--gc-dur), background-color var(--gc-dur) var(--gc-ease), border-color var(--gc-dur) var(--gc-ease); }
   .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { min-width: var(--gc-desc-w, 12.5rem); background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); transition-delay: 0s; }
   .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
   /* contain: inline-size keeps the text from widening the plaque; it wraps to the plaque's width.
@@ -152,7 +152,7 @@
 /* Compact range (900–1199px): smaller plaques, no eyebrow. */
 @media (min-width: 900px) and (max-width: 1199.98px) {
   .gc-hero .gc-hero__eyebrow { display: none; }
-  .gc-hero .gc-place__label { padding: .5rem .75rem; }
+  .gc-hero .gc-place__label { padding: var(--gc-label-pad, .5rem .75rem); }
   .gc-hero .gc-place__name { font-size: .875rem; }
   .gc-hero .gc-place__label { --gc-desc-w: 10.5rem; }
   .gc-hero .gc-place__desc { font-size: .75rem; line-height: 1.35; }

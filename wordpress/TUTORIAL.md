@@ -61,7 +61,7 @@ Para deixar o header do Elementor Pro transparente por cima do hero, faça assim
 
 ### 3b. Altura do hero
 
-Em **Texto inicial → Altura do hero** você define a altura do layout. O padrão é **100vh**, a tela inteira.
+Em **Texto inicial → Altura do hero** você define a altura do layout. Deixe o campo vazio para usar o padrão: **100vh**, a tela inteira. No celular, o padrão considera a tela com as barras do navegador visíveis, para nada começar escondido atrás delas.
 
 - **Por dispositivo:** clique no ícone de tela ao lado do título do controle para definir valores diferentes no desktop, tablet e celular.
 - **Unidades:** `vh` (porcentagem da altura da tela) ou `px` (altura fixa).
@@ -89,7 +89,7 @@ Na aba **Estilo → Botões** você ajusta as plaquinhas com os nomes que ficam 
 - **Opacidade do fundo**: vai de 0 (transparente) a 1 (sólido). Só o fundo fica transparente; o texto continua legível.
 - **Borda**: estilo (sólida, tracejada, pontilhada, dupla ou sem borda), espessura, cor e cor no hover.
 - **Arredondamento** dos cantos.
-- **Espaçamento interno**: o padding dos botões, ajustável por dispositivo.
+- **Espaçamento interno**: o padding dos botões sobre a cena, ajustável por dispositivo (telas a partir de 900 px; os cartões do celular não mudam).
 
 Se o fundo ficar muito transparente sobre partes claras da foto, o texto pode perder contraste. Abaixo de 0,6, confira no navegador.
 

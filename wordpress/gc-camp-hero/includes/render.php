@@ -125,7 +125,13 @@ function gc_camp_hero_render( $args = array() ) {
 	$args   = wp_parse_args( $args, $d );
 	$places = array();
 	foreach ( $d['places'] as $key => $defaults ) {
-		$places[ $key ] = wp_parse_args( isset( $args['places'][ $key ] ) ? array_filter( (array) $args['places'][ $key ], 'strlen' ) : array(), $defaults );
+		$given          = isset( $args['places'][ $key ] ) ? (array) $args['places'][ $key ] : array();
+		$places[ $key ] = wp_parse_args( array_filter( $given, 'strlen' ), $defaults );
+		// An empty name or link falls back to the default (a plaque needs both); an emptied
+		// description is respected and simply not shown.
+		if ( array_key_exists( 'desc', $given ) ) {
+			$places[ $key ]['desc'] = (string) $given['desc'];
+		}
 	}
 	$tag    = in_array( $args['heading_tag'], array( 'h1', 'h2', 'div' ), true ) ? $args['heading_tag'] : 'h1';
 	$header = max( 0, (int) $args['header_height'] );
@@ -175,7 +181,7 @@ function gc_camp_hero_render( $args = array() ) {
 	<div class="gc-camp">
 		<ul class="gc-camp__places" role="list">
 			<li class="gc-camp__item">
-				<a class="gc-place gc-campfire"<?php echo gc_camp_hero_link_attrs( $places['kitchen'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:.6;--y:.85;--w:.104;--ar:.7122" aria-labelledby="<?php echo esc_attr( $uid ); ?>-kitchen" aria-describedby="<?php echo esc_attr( $uid ); ?>-kitchen-desc">
+				<a class="gc-place gc-campfire"<?php echo gc_camp_hero_link_attrs( $places['kitchen'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:.6;--y:.85;--w:.104;--ar:.7122" aria-labelledby="<?php echo esc_attr( $uid ); ?>-kitchen"<?php echo '' !== $places['kitchen']['desc'] ? ' aria-describedby="' . esc_attr( "$uid-kitchen-desc" ) . '"' : ''; ?>>
 					<span class="gc-place__art gc-campfire__art" aria-hidden="true">
 						<span class="gc-campfire__glow"></span>
 						<img class="gc-campfire__img" src="<?php echo esc_url( $img . 'campfire-800.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'campfire', array( 420, 800 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="(min-width: 900px) 12vw, 13.5rem" width="800" height="570" alt="">
@@ -186,13 +192,15 @@ function gc_camp_hero_render( $args = array() ) {
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( $uid ); ?>-kitchen"><?php echo esc_html( $places['kitchen']['name'] ); ?></span>
-						<span class="gc-place__desc" id="<?php echo esc_attr( $uid ); ?>-kitchen-desc"><span><?php echo esc_html( $places['kitchen']['desc'] ); ?></span></span>
+						<?php if ( '' !== $places['kitchen']['desc'] ) : ?>
+						<span class="gc-place__desc" id="<?php echo esc_attr( "$uid-kitchen-desc" ); ?>"><span><?php echo esc_html( $places['kitchen']['desc'] ); ?></span></span>
+						<?php endif; ?>
 					</span>
 				</a>
 			</li>
 			<?php foreach ( $tents as $key => $t ) : ?>
 			<li class="gc-camp__item">
-				<a class="gc-place gc-cabin gc-cabin--<?php echo esc_attr( $key ); ?>"<?php echo gc_camp_hero_link_attrs( $places[ $key ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:<?php echo esc_attr( $t[0] ); ?>;--y:<?php echo esc_attr( $t[1] ); ?>;--w:<?php echo esc_attr( $t[2] ); ?>;--ar:.558;--sx:<?php echo esc_attr( $t[3] ); ?>" aria-labelledby="<?php echo esc_attr( "$uid-$key" ); ?>" aria-describedby="<?php echo esc_attr( "$uid-$key-desc" ); ?>">
+				<a class="gc-place gc-cabin gc-cabin--<?php echo esc_attr( $key ); ?>"<?php echo gc_camp_hero_link_attrs( $places[ $key ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:<?php echo esc_attr( $t[0] ); ?>;--y:<?php echo esc_attr( $t[1] ); ?>;--w:<?php echo esc_attr( $t[2] ); ?>;--ar:.558;--sx:<?php echo esc_attr( $t[3] ); ?>" aria-labelledby="<?php echo esc_attr( "$uid-$key" ); ?>"<?php echo '' !== $places[ $key ]['desc'] ? ' aria-describedby="' . esc_attr( "$uid-$key-desc" ) . '"' : ''; ?>>
 					<span class="gc-place__art" aria-hidden="true">
 						<span class="gc-place__shadow"></span><span class="gc-place__light"></span>
 						<img class="gc-place__img" src="<?php echo esc_url( $img . "tent-$key-900.webp" ); ?>" srcset="<?php echo gc_camp_hero_srcset( "tent-$key", array( 260, 520, 900, 1400 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="<?php echo esc_attr( $t[4] ); ?>" width="900" height="502" alt="" decoding="async">
@@ -200,7 +208,9 @@ function gc_camp_hero_render( $args = array() ) {
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( "$uid-$key" ); ?>"><?php echo esc_html( $places[ $key ]['name'] ); ?></span>
+						<?php if ( '' !== $places[ $key ]['desc'] ) : ?>
 						<span class="gc-place__desc" id="<?php echo esc_attr( "$uid-$key-desc" ); ?>"><span><?php echo esc_html( $places[ $key ]['desc'] ); ?></span></span>
+						<?php endif; ?>
 					</span>
 				</a>
 			</li>

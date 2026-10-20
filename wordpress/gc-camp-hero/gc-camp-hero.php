@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Camp Hero
  * Description:       The camp hero section (fire + three tents) as an Elementor widget ("Camp Hero") and a [gc_camp_hero] shortcode.
- * Version:           1.4.0
+ * Version:           1.4.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GC_CAMP_HERO_VERSION', '1.4.0' );
+define( 'GC_CAMP_HERO_VERSION', '1.4.1' );
 define( 'GC_CAMP_HERO_URL', plugin_dir_url( __FILE__ ) );
 define( 'GC_CAMP_HERO_DIR', plugin_dir_path( __FILE__ ) );
 

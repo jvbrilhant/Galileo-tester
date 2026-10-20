@@ -295,6 +295,9 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
 @media (min-width: 900px) {
   .gc-hero {
     container-type: size;
+    /* No top padding here: .gc-hero is the size container, so padding would shrink 100cqh
+       and detach the places from the photo. The intro takes the header offset instead. */
+    padding-top: 0;
     height: max(560px, min(100svh, 61vw), 50vw);
     --img-w: max(100cqw, 100cqh * 1.7758);
     --img-h: calc(var(--img-w) * .5631);
@@ -304,6 +307,7 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
 
   /* Intro lives in the sky band above the camp. */
   .gc-hero__intro { max-width: 82rem; padding-block: clamp(2rem, 7svh, 4.5rem) 0; }
+  @media (scripting: enabled) { .gc-hero__intro { padding-top: calc(clamp(2rem, 7svh, 4.5rem) + 5rem); } }
   .gc-hero__eyebrow { margin-bottom: var(--space-1); }
   .gc-hero__title { font-size: clamp(1.75rem, min(2.85vw, 6svh), 3.5rem); line-height: 1.12; }
 
@@ -585,7 +589,7 @@ ul[role="list"], ol[role="list"] { list-style: none; margin: 0; padding: 0; }
 .gc-demo-notice.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
 /* ==========
-   5. MOTION — transform/opacity only; main.js toggles .is-paused on the hero
+   5. MOTION — looping animations use transform/opacity only; main.js toggles .is-paused on the hero
    ========== */
 
 @media (prefers-reduced-motion: no-preference) {

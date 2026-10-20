@@ -109,9 +109,9 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 					'vh' => array( 'min' => 30, 'max' => 150 ),
 					'px' => array( 'min' => 300, 'max' => 1600, 'step' => 10 ),
 				),
-				'default'     => array( 'unit' => 'vh', 'size' => 100 ),
+				'default'     => array( 'unit' => 'vh', 'size' => '' ),
 				'selectors'   => array( '{{WRAPPER}} .gc-hero' => '--gc-hero-h: {{SIZE}}{{UNIT}};' ),
-				'description' => 'Ajuste por dispositivo (ícone de tela ao lado do título). 100vh = a tela inteira; com o cabeçalho acima do hero (switch em Não), a altura dele é descontada. No celular é a altura mínima: se o conteúdo não couber, o hero cresce.',
+				'description' => 'Vazio = a tela inteira (100vh). Ajuste por dispositivo (ícone de tela ao lado do título); com o cabeçalho acima do hero (switch em Não), a altura dele é descontada. No celular é a altura mínima: se o conteúdo não couber, o hero cresce.',
 			)
 		);
 		$this->end_controls_section();
@@ -295,8 +295,8 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
 				'size_units' => array( 'px', 'rem' ),
 				'separator'  => 'before',
-				'selectors'  => array( $hero . ' .gc-place__label' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ),
-				'description' => 'Vale para os botões sobre a cena (desktop).',
+				'selectors'  => array( $hero => '--gc-label-pad: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ),
+				'description' => 'Vale para os botões sobre a cena (telas a partir de 900 px). Os cartões do celular não mudam.',
 			)
 		);
 		$this->end_controls_section();
@@ -353,11 +353,13 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 			$link           = isset( $s[ "{$key}_link" ] ) ? $s[ "{$key}_link" ] : array();
 			$places[ $key ] = array(
 				'name'     => isset( $s[ "{$key}_name" ] ) ? (string) $s[ "{$key}_name" ] : '',
-				'desc'     => isset( $s[ "{$key}_desc" ] ) ? (string) $s[ "{$key}_desc" ] : '',
 				'url'      => isset( $link['url'] ) ? (string) $link['url'] : '',
 				'external' => ! empty( $link['is_external'] ) ? '1' : '',
 				'nofollow' => ! empty( $link['nofollow'] ) ? '1' : '',
 			);
+			if ( isset( $s[ "{$key}_desc" ] ) ) { // an emptied description hides it
+				$places[ $key ]['desc'] = (string) $s[ "{$key}_desc" ];
+			}
 		}
 		echo gc_camp_hero_render( // phpcs:ignore WordPress.Security.EscapeOutput -- escaped inside.
 			array(
@@ -367,7 +369,7 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 				'header_height'  => isset( $s['header_height'] ) ? (int) $s['header_height'] : 0,
 				'header_overlay' => isset( $s['header_overlay'] ) && 'yes' === $s['header_overlay'],
 				'fireflies'       => ! isset( $s['fireflies'] ) || 'yes' === $s['fireflies'],
-				'fireflies_count' => isset( $s['fireflies_count']['size'] ) ? (int) $s['fireflies_count']['size'] : 6,
+				'fireflies_count' => isset( $s['fireflies_count']['size'] ) && '' !== $s['fireflies_count']['size'] ? (int) $s['fireflies_count']['size'] : 6,
 				'fireflies_speed' => 1, // speed is applied by the control's CSS selector
 				'places'        => $places,
 			)
