@@ -139,6 +139,127 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 			$this->end_controls_section();
 		}
 
+		// Style tab: buttons (the plaques under each place; the cards on phones).
+		$hero = '{{WRAPPER}} .gc-hero';
+		$this->start_controls_section(
+			'style_buttons',
+			array(
+				'label' => 'Botões',
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+		$this->add_control(
+			'btn_bg',
+			array(
+				'label'     => 'Cor de fundo',
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( $hero => '--gc-btn-bg: {{VALUE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_bg_hover',
+			array(
+				'label'     => 'Cor de fundo no hover',
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( $hero => '--gc-btn-bg-hover: {{VALUE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_bg_opacity',
+			array(
+				'label'       => 'Opacidade do fundo',
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'range'       => array( 'px' => array( 'min' => 0, 'max' => 1, 'step' => .01 ) ),
+				'default'     => array( 'size' => .74 ),
+				'selectors'   => array( $hero => '--gc-btn-bg-a: {{SIZE}};' ),
+				'description' => '0 = transparente, 1 = sólido. Só o fundo fica transparente; o texto não.',
+			)
+		);
+		$this->add_control(
+			'btn_desc_opacity',
+			array(
+				'label'     => 'Opacidade do fundo da descrição',
+				'type'      => \Elementor\Controls_Manager::SLIDER,
+				'range'     => array( 'px' => array( 'min' => 0, 'max' => 1, 'step' => .01 ) ),
+				'default'   => array( 'size' => .92 ),
+				'selectors' => array( $hero => '--gc-btn-desc-a: {{SIZE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_border_heading',
+			array(
+				'label'     => 'Borda',
+				'type'      => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			)
+		);
+		$this->add_control(
+			'btn_border_style',
+			array(
+				'label'     => 'Estilo',
+				'type'      => \Elementor\Controls_Manager::SELECT,
+				'default'   => 'solid',
+				'options'   => array(
+					'solid'  => 'Sólida',
+					'dashed' => 'Tracejada',
+					'dotted' => 'Pontilhada',
+					'double' => 'Dupla',
+					'none'   => 'Sem borda',
+				),
+				'selectors' => array( $hero => '--gc-btn-border-style: {{VALUE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_border_width',
+			array(
+				'label'      => 'Espessura',
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range'      => array( 'px' => array( 'min' => 0, 'max' => 6 ) ),
+				'default'    => array( 'unit' => 'px', 'size' => 1 ),
+				'selectors'  => array( $hero => '--gc-btn-border-w: {{SIZE}}{{UNIT}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_border_color',
+			array(
+				'label'     => 'Cor',
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( $hero => '--gc-btn-border: {{VALUE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_border_color_hover',
+			array(
+				'label'     => 'Cor no hover',
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'selectors' => array( $hero => '--gc-btn-border-hover: {{VALUE}};' ),
+			)
+		);
+		$this->add_control(
+			'btn_radius',
+			array(
+				'label'      => 'Arredondamento',
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => array( 'px' ),
+				'range'      => array( 'px' => array( 'min' => 0, 'max' => 40 ) ),
+				'default'    => array( 'unit' => 'px', 'size' => 10 ),
+				'selectors'  => array( $hero => '--gc-btn-radius: {{SIZE}}{{UNIT}};' ),
+			)
+		);
+		$this->add_responsive_control(
+			'btn_padding',
+			array(
+				'label'      => 'Espaçamento interno',
+				'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+				'size_units' => array( 'px', 'rem' ),
+				'separator'  => 'before',
+				'selectors'  => array( $hero . ' .gc-place__label' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ),
+				'description' => 'Vale para os botões sobre a cena (desktop).',
+			)
+		);
+		$this->end_controls_section();
+
 		// Style tab: typography + colour for each text. Empty = the built-in Prata/Poppins look.
 		$texts = array(
 			'eyebrow' => array( 'Linha de destaque', '.gc-hero__eyebrow' ),

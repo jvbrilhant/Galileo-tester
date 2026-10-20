@@ -13,6 +13,16 @@
   --gc-on-dark-muted: #c9d3e1;
   --gc-amber: #ffc83d;
   --gc-scrim: rgb(0 12 30 / .74);
+  /* Buttons (place plaques + phone cards); the widget's Style tab overrides these. */
+  --gc-btn-bg: #000c1e;
+  --gc-btn-bg-a: .74;
+  --gc-btn-bg-hover: var(--gc-btn-bg);
+  --gc-btn-desc-a: .92;
+  --gc-btn-border-w: 1px;
+  --gc-btn-border-style: solid;
+  --gc-btn-border: rgb(255 255 255 / .18);
+  --gc-btn-border-hover: rgb(255 200 61 / .8);
+  --gc-btn-radius: 10px;
   --gc-font-heading: "GC Prata", "Prata", Georgia, "Times New Roman", serif;
   --gc-font-body: "GC Poppins", "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --gc-gutter: clamp(1rem, 4vw, 2.5rem);
@@ -69,7 +79,8 @@
 .gc-hero .gc-place__img { position: relative; width: 100%; height: auto; transition: transform var(--gc-dur) var(--gc-ease); }
 
 /* Phones: full-width cards (tent left, text right). */
-.gc-hero .gc-cabin { grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem .75rem .75rem; background: var(--gc-scrim); border: 1px solid rgb(255 255 255 / .16); }
+.gc-hero .gc-cabin { grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem .75rem .75rem; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: calc(var(--gc-btn-radius) + 6px); }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) { background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
 .gc-hero .gc-place__glow { display: none; }
 
 /* ≥900px: the hero fills the viewport and the photo is drawn with object-fit: cover,
@@ -106,15 +117,15 @@
   }
 
   /* Label = a small plaque on the ground; only the name shows at rest. */
-  .gc-hero .gc-place__label { position: relative; width: max-content; padding: .625rem 1rem; text-align: center; background: var(--gc-scrim); border: 1px solid rgb(255 255 255 / .18); border-radius: 10px; }
-  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { border-color: rgb(255 200 61 / .8); }
+  .gc-hero .gc-place__label { position: relative; width: max-content; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
   .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
-  .gc-hero .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: rgb(0 12 30 / .92); border: 1px solid rgb(255 200 61 / .45); border-radius: 10px; opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+  .gc-hero .gc-place__desc { position: absolute; top: calc(100% + 6px); left: 50%; width: max-content; max-width: 13rem; margin: 0; padding: .5rem .75rem; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-desc-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) color-mix(in srgb, var(--gc-btn-border-hover) 56%, transparent); border-radius: var(--gc-btn-radius); opacity: 0; pointer-events: none; transform: translate(-50%, -6px); transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
   .gc-hero .gc-place:is(:hover, :focus-visible) { z-index: 5; }
   .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { opacity: 1; pointer-events: auto; transform: translate(-50%, 0); }
 
   .gc-hero .gc-place__art { width: 100%; }
-  .gc-hero .gc-cabin { padding: 0; background: none; border: 0; }
+  .gc-hero .gc-cabin, .gc-hero .gc-cabin:is(:hover, :focus-visible) { padding: 0; background: none; border: 0; }
   .gc-hero .gc-place__glow { display: block; }
 }
 

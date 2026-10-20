@@ -71,7 +71,20 @@ No painel do widget, cada parte tem sua seção:
 
 Os links já vêm preenchidos com `/kitchen-ideas/`, `/library/`, `/study-groups/` e `/about/`.
 
-### 5. Trocar fontes e cores
+### 5. Estilo dos botões
+
+Na aba **Estilo → Botões** você ajusta as plaquinhas com os nomes que ficam embaixo da fogueira e das barracas. No celular, os mesmos ajustes valem para os cartões.
+
+- **Cor de fundo** e **Cor de fundo no hover**.
+- **Opacidade do fundo**: vai de 0 (transparente) a 1 (sólido). Só o fundo fica transparente; o texto continua legível.
+- **Opacidade do fundo da descrição**: o mesmo, para a caixinha que aparece no hover.
+- **Borda**: estilo (sólida, tracejada, pontilhada, dupla ou sem borda), espessura, cor e cor no hover.
+- **Arredondamento** dos cantos.
+- **Espaçamento interno**: o padding dos botões, ajustável por dispositivo.
+
+Se o fundo ficar muito transparente sobre partes claras da foto, o texto pode perder contraste. Abaixo de 0,6, confira no navegador.
+
+### 5b. Trocar fontes e cores
 
 Na aba **Estilo** do widget há quatro seções, uma para cada tipo de texto:
 
