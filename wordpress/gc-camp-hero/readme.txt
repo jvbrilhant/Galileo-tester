@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,9 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.3.3 =
+* Fix: with the cursor resting just below an open plaque, the plaque could flicker open and closed. It now keeps its open width until the description has collapsed.
 
 = 1.3.2 =
 * Hover: the plaque no longer animates its width (the text was re-wrapping while it appeared). It takes its open width at once, grows downward, and the description fades in.
