@@ -205,6 +205,34 @@
 @keyframes gc-ember { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx, 6px), -130px); } }
 @keyframes gc-firefly { 0% { opacity: .15; transform: translate(0, 0); } 50% { opacity: .9; } 100% { opacity: .25; transform: translate(var(--mx, 18px), var(--my, -14px)); } }
 
+/* Entrance animation for the texts (widget: Animação de entrada dos textos). Eyebrow, then title,
+   then (optionally) the plaques, --gc-rv-step apart. Only with motion allowed; otherwise the
+   texts are simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  .gc-hero[data-gc-reveal="fade"]  { --gc-rv-kf: gc-rv-fade; }
+  .gc-hero[data-gc-reveal="up"],
+  .gc-hero[data-gc-reveal="words"] { --gc-rv-kf: gc-rv-up; }
+  .gc-hero[data-gc-reveal="down"]  { --gc-rv-kf: gc-rv-down; }
+  .gc-hero[data-gc-reveal="blur"]  { --gc-rv-kf: gc-rv-blur; }
+  .gc-hero[data-gc-reveal="zoom"]  { --gc-rv-kf: gc-rv-zoom; }
+  .gc-hero[data-gc-reveal] .gc-hero__eyebrow,
+  .gc-hero[data-gc-reveal]:not([data-gc-reveal="words"]) .gc-hero__title,
+  .gc-hero[data-gc-reveal] .gc-hero__word,
+  .gc-hero[data-gc-reveal-buttons] .gc-place__label { animation: var(--gc-rv-kf) var(--gc-rv-dur, .9s) var(--gc-ease) var(--gc-rv-at) both; }
+  .gc-hero[data-gc-reveal] { --gc-rv-at: var(--gc-rv-delay, .2s); }
+  .gc-hero[data-gc-reveal] .gc-hero__title { --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s)); }
+  .gc-hero[data-gc-reveal] .gc-hero__word { display: inline-block; --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s) * (1 + var(--i) * .4)); }
+  .gc-hero[data-gc-reveal-buttons] .gc-camp__item { --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s) * 2.5); }
+  .gc-hero[data-gc-reveal-buttons] .gc-camp__item:nth-child(2) { --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s) * 3); }
+  .gc-hero[data-gc-reveal-buttons] .gc-camp__item:nth-child(3) { --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s) * 3.5); }
+  .gc-hero[data-gc-reveal-buttons] .gc-camp__item:nth-child(4) { --gc-rv-at: calc(var(--gc-rv-delay, .2s) + var(--gc-rv-step, .2s) * 4); }
+}
+@keyframes gc-rv-fade { from { opacity: 0; } }
+@keyframes gc-rv-up   { from { opacity: 0; transform: translateY(.6em); } }
+@keyframes gc-rv-down { from { opacity: 0; transform: translateY(-.6em); } }
+@keyframes gc-rv-blur { from { opacity: 0; filter: blur(10px); } }
+@keyframes gc-rv-zoom { from { opacity: 0; transform: scale(.94); } }
+
 @media (prefers-reduced-motion: reduce) {
   .gc-hero *, .gc-hero *::before, .gc-hero *::after { animation: none !important; transition-duration: 0s !important; }
   .gc-hero .gc-campfire__embers, .gc-hero .gc-fireflies { display: none; }

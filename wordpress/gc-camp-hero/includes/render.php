@@ -19,6 +19,8 @@ function gc_camp_hero_defaults() {
 		'header_overlay' => false,
 		'height'          => '',
 		'height_mobile'   => '',
+		'reveal'          => '',    // '', fade, up, down, blur, zoom, words
+		'reveal_buttons'  => false,
 		'fireflies'       => true,
 		'fireflies_count' => 6,
 		'fireflies_speed' => 1,
@@ -149,6 +151,17 @@ function gc_camp_hero_render( $args = array() ) {
 	if ( $speed > 0 && 1.0 !== $speed ) {
 		$style .= ( $style ? ';' : '' ) . '--gc-ff-speed:' . min( 4, max( .1, $speed ) );
 	}
+	$reveal = in_array( $args['reveal'], array( 'fade', 'up', 'down', 'blur', 'zoom', 'words' ), true ) ? $args['reveal'] : '';
+	$attrs  = $reveal ? ' data-gc-reveal="' . $reveal . '"' . ( filter_var( $args['reveal_buttons'], FILTER_VALIDATE_BOOLEAN ) ? ' data-gc-reveal-buttons' : '' ) : '';
+	$title  = esc_html( $args['title'] );
+	if ( 'words' === $reveal ) {
+		// One span per word, each with its index for the stagger; spaces stay real text.
+		$words = preg_split( '/\s+/u', trim( $args['title'] ), -1, PREG_SPLIT_NO_EMPTY );
+		foreach ( $words as $i => $word ) {
+			$words[ $i ] = '<span class="gc-hero__word" style="--i:' . (int) $i . '">' . esc_html( $word ) . '</span>';
+		}
+		$title = implode( ' ', $words );
+	}
 	$uid    = wp_unique_id( 'gc-hero-' );
 	$img    = GC_CAMP_HERO_URL . 'assets/img/';
 
@@ -161,7 +174,7 @@ function gc_camp_hero_render( $args = array() ) {
 
 	ob_start();
 	?>
-<section class="gc-hero" aria-labelledby="<?php echo esc_attr( $uid ); ?>-title"<?php echo $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?>>
+<section class="gc-hero" aria-labelledby="<?php echo esc_attr( $uid ); ?>-title"<?php echo $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?><?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput -- whitelisted values ?>>
 	<div class="gc-hero__media" aria-hidden="true">
 		<picture>
 			<source media="(max-width: 899px)" type="image/webp" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg-portrait', array( 540, 1060 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="1060" height="1882">
@@ -175,7 +188,7 @@ function gc_camp_hero_render( $args = array() ) {
 		<?php if ( '' !== trim( $args['eyebrow'] ) ) : ?>
 			<p class="gc-hero__eyebrow"><?php echo esc_html( $args['eyebrow'] ); ?></p>
 		<?php endif; ?>
-		<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput -- whitelisted above ?> class="gc-hero__title" id="<?php echo esc_attr( $uid ); ?>-title"><?php echo esc_html( $args['title'] ); ?></<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
+		<<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput -- whitelisted above ?> class="gc-hero__title" id="<?php echo esc_attr( $uid ); ?>-title"><?php echo $title; // phpcs:ignore WordPress.Security.EscapeOutput -- escaped above ?></<?php echo $tag; // phpcs:ignore WordPress.Security.EscapeOutput ?>>
 	</div>
 
 	<div class="gc-camp">

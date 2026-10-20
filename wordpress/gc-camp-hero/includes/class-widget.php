@@ -190,6 +190,73 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 		);
 		$this->end_controls_section();
 
+		$this->start_controls_section( 'section_reveal', array( 'label' => 'Animação de entrada dos textos' ) );
+		$this->add_control(
+			'reveal',
+			array(
+				'label'   => 'Efeito',
+				'type'    => \Elementor\Controls_Manager::SELECT,
+				'default' => '',
+				'options' => array(
+					''      => 'Nenhum',
+					'fade'  => 'Aparecer (fade)',
+					'up'    => 'Subir',
+					'down'  => 'Descer',
+					'blur'  => 'Desfocado → nítido',
+					'zoom'  => 'Zoom',
+					'words' => 'Título palavra por palavra',
+				),
+				'description' => 'Os textos aparecem um depois do outro quando a página abre. Visitantes com "reduzir movimento" ativado veem os textos direto, sem animação.',
+			)
+		);
+		$this->add_control(
+			'reveal_buttons',
+			array(
+				'label'        => 'Animar também os botões',
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => 'Sim',
+				'label_off'    => 'Não',
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => array( 'reveal!' => '' ),
+			)
+		);
+		$this->add_control(
+			'reveal_duration',
+			array(
+				'label'     => 'Duração (s)',
+				'type'      => \Elementor\Controls_Manager::SLIDER,
+				'range'     => array( 'px' => array( 'min' => .2, 'max' => 3, 'step' => .05 ) ),
+				'default'   => array( 'size' => .9 ),
+				'selectors' => array( '{{WRAPPER}} .gc-hero' => '--gc-rv-dur: {{SIZE}}s;' ),
+				'condition' => array( 'reveal!' => '' ),
+			)
+		);
+		$this->add_control(
+			'reveal_delay',
+			array(
+				'label'     => 'Atraso inicial (s)',
+				'type'      => \Elementor\Controls_Manager::SLIDER,
+				'range'     => array( 'px' => array( 'min' => 0, 'max' => 3, 'step' => .05 ) ),
+				'default'   => array( 'size' => .2 ),
+				'selectors' => array( '{{WRAPPER}} .gc-hero' => '--gc-rv-delay: {{SIZE}}s;' ),
+				'condition' => array( 'reveal!' => '' ),
+			)
+		);
+		$this->add_control(
+			'reveal_stagger',
+			array(
+				'label'       => 'Intervalo entre os textos (s)',
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'range'       => array( 'px' => array( 'min' => 0, 'max' => 1.5, 'step' => .05 ) ),
+				'default'     => array( 'size' => .2 ),
+				'selectors'   => array( '{{WRAPPER}} .gc-hero' => '--gc-rv-step: {{SIZE}}s;' ),
+				'condition'   => array( 'reveal!' => '' ),
+				'description' => 'Tempo entre a linha de destaque, o título e os botões. No efeito palavra por palavra, também o tempo entre as palavras é proporcional a ele.',
+			)
+		);
+		$this->end_controls_section();
+
 		// Style tab: buttons (the plaques under each place; the cards on phones).
 		$hero = '{{WRAPPER}} .gc-hero';
 		$this->start_controls_section(
@@ -371,6 +438,8 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 				'fireflies'       => ! isset( $s['fireflies'] ) || 'yes' === $s['fireflies'],
 				'fireflies_count' => isset( $s['fireflies_count']['size'] ) && '' !== $s['fireflies_count']['size'] ? (int) $s['fireflies_count']['size'] : 6,
 				'fireflies_speed' => 1, // speed is applied by the control's CSS selector
+				'reveal'          => isset( $s['reveal'] ) ? (string) $s['reveal'] : '',
+				'reveal_buttons'  => isset( $s['reveal_buttons'] ) && 'yes' === $s['reveal_buttons'],
 				'places'        => $places,
 			)
 		);

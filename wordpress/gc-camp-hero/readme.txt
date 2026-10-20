@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.4.1
+Stable tag: 1.5.0
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,9 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.5.0 =
+* Entrance animation for the texts (Conteúdo → Animação de entrada dos textos): fade, up, down, blur, zoom or title word by word; optional plaques; duration, delay and stagger. Off with reduced motion. Shortcode: reveal, reveal_buttons.
 
 = 1.4.1 =
 * Fix: an emptied description is no longer replaced by the default text (it is hidden, along with its aria-describedby). An emptied name or link still falls back to the default.

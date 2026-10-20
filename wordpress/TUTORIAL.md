@@ -116,6 +116,16 @@ Na aba **Conteúdo → Vaga-lumes**:
 
 Com "reduzir movimento" ativado no sistema do visitante, os vaga-lumes não aparecem.
 
+### 5d. Animação de entrada dos textos
+
+Na aba **Conteúdo → Animação de entrada dos textos**:
+
+- **Efeito:** Nenhum (padrão), Aparecer (fade), Subir, Descer, Desfocado → nítido, Zoom ou Título palavra por palavra.
+- **Animar também os botões:** os nomes sobre a cena (ou os cartões, no celular) aparecem depois do título, um de cada vez.
+- **Duração**, **Atraso inicial** e **Intervalo entre os textos**, em segundos. A ordem é: linha de destaque, título e, se ativado, os botões.
+
+A animação acontece quando a página abre. No editor do Elementor, ela se repete a cada ajuste. Visitantes com "reduzir movimento" ativado no sistema veem os textos direto, sem animação.
+
 ### 6. SEO: tag do título
 
 O título do hero vem como **H1**. Se a página já tiver outro H1, como o título do tema, mude a **Tag do título** para **H2** ou desative o título da página: em **Configurações da página → Ocultar título**, ou use o modelo de página **Elementor Largura Total**.
@@ -139,9 +149,10 @@ Em qualquer lugar que aceite shortcode (inclusive o widget **Shortcode** do Elem
 [gc_camp_hero fireflies="yes" fireflies_count="20" fireflies_speed="1.5"]
 [gc_camp_hero fireflies="no"]
 [gc_camp_hero height="100vh" height_mobile="90vh"]
+[gc_camp_hero reveal="up" reveal_buttons="yes"]
 ```
 
-Pelo shortcode dá para mudar a linha de destaque, o título, a tag, o cabeçalho, a altura (`height` e `height_mobile`, em `vh` ou `px`) e os vaga-lumes. Nomes, descrições e links das barracas só podem ser editados pelo widget.
+Pelo shortcode dá para mudar a linha de destaque, o título, a tag, o cabeçalho, a altura (`height` e `height_mobile`, em `vh` ou `px`), os vaga-lumes e a animação de entrada (`reveal`: `fade`, `up`, `down`, `blur`, `zoom` ou `words`; `reveal_buttons="yes"`; pelo shortcode, duração e atrasos ficam no padrão). Nomes, descrições e links das barracas só podem ser editados pelo widget.
 
 ## Perguntas frequentes
 

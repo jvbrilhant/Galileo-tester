@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Camp Hero
  * Description:       The camp hero section (fire + three tents) as an Elementor widget ("Camp Hero") and a [gc_camp_hero] shortcode.
- * Version:           1.4.1
+ * Version:           1.5.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * License:           GPL-2.0-or-later
@@ -13,7 +13,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'GC_CAMP_HERO_VERSION', '1.4.1' );
+define( 'GC_CAMP_HERO_VERSION', '1.5.0' );
 define( 'GC_CAMP_HERO_URL', plugin_dir_url( __FILE__ ) );
 define( 'GC_CAMP_HERO_DIR', plugin_dir_path( __FILE__ ) );
 
@@ -30,7 +30,7 @@ function gc_camp_hero_register_assets() {
 add_action( 'init', 'gc_camp_hero_register_assets' );
 
 /**
- * Shortcode: [gc_camp_hero eyebrow="…" title="…" heading_tag="h1" header_height="80" header_overlay="no" height="100vh" height_mobile="100vh" fireflies="yes" fireflies_count="6" fireflies_speed="1"]
+ * Shortcode: [gc_camp_hero eyebrow="…" title="…" heading_tag="h1" header_height="80" header_overlay="no" height="100vh" height_mobile="100vh" reveal="up" reveal_buttons="no" fireflies="yes" fireflies_count="6" fireflies_speed="1"]
  *
  * @param array $atts Shortcode attributes.
  */
@@ -45,6 +45,8 @@ function gc_camp_hero_shortcode( $atts ) {
 			'header_overlay' => 'no',
 			'height'          => '',
 			'height_mobile'   => '',
+			'reveal'          => '',
+			'reveal_buttons'  => 'no',
 			'fireflies'       => 'yes',
 			'fireflies_count' => 6,
 			'fireflies_speed' => 1,
