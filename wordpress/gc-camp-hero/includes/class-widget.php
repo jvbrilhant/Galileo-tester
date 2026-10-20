@@ -138,6 +138,50 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 			);
 			$this->end_controls_section();
 		}
+
+		// Style tab: typography + colour for each text. Empty = the built-in Prata/Poppins look.
+		$texts = array(
+			'eyebrow' => array( 'Linha de destaque', '.gc-hero__eyebrow' ),
+			'title'   => array( 'Título', '.gc-hero__title' ),
+			'name'    => array( 'Nomes (Library, Study Groups…)', '.gc-place__name' ),
+			'desc'    => array( 'Descrições (hover)', '.gc-place__desc' ),
+		);
+		foreach ( $texts as $key => $t ) {
+			$this->start_controls_section(
+				"style_$key",
+				array(
+					'label' => $t[0],
+					'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+				)
+			);
+			$this->add_group_control(
+				\Elementor\Group_Control_Typography::get_type(),
+				array(
+					'name'     => "{$key}_typography",
+					'selector' => '{{WRAPPER}} .gc-hero ' . $t[1],
+				)
+			);
+			$this->add_control(
+				"{$key}_color",
+				array(
+					'label'     => 'Cor',
+					'type'      => \Elementor\Controls_Manager::COLOR,
+					// Names: keep the hover colour working when only the rest colour is set.
+					'selectors' => array( '{{WRAPPER}} .gc-hero ' . ( 'name' === $key ? '.gc-place:not(:hover):not(:focus-visible) ' : '' ) . $t[1] => 'color: {{VALUE}};' ),
+				)
+			);
+			if ( 'name' === $key ) {
+				$this->add_control(
+					'name_hover_color',
+					array(
+						'label'     => 'Cor no hover',
+						'type'      => \Elementor\Controls_Manager::COLOR,
+						'selectors' => array( '{{WRAPPER}} .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__name' => 'color: {{VALUE}};' ),
+					)
+				);
+			}
+			$this->end_controls_section();
+		}
 	}
 
 	protected function render() {
