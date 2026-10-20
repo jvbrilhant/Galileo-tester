@@ -59,6 +59,16 @@ Para deixar o header do Elementor Pro transparente por cima do hero, faça assim
 2. No container do header, deixe o fundo transparente.
 3. Em **Avançado → Movimento / Posição**, defina a posição como *Absoluta*, com largura total e `z-index` alto (ex.: 99).
 
+### 3b. Altura do hero
+
+Em **Texto inicial → Altura do hero** você define a altura do layout. O padrão é **100vh**, a tela inteira.
+
+- **Por dispositivo:** clique no ícone de tela ao lado do título do controle para definir valores diferentes no desktop, tablet e celular.
+- **Unidades:** `vh` (porcentagem da altura da tela) ou `px` (altura fixa).
+- **Cabeçalho acima do hero (switch em Não):** a altura do cabeçalho é descontada. Com 100vh, o hero e o cabeçalho juntos ocupam exatamente a tela.
+- **Desktop:** existe uma altura mínima automática, para que as barracas não subam por cima do título. Abaixo dela, o valor é ignorado. Em telas muito altas, a foto fica ancorada embaixo e o céu continua acima dela.
+- **Celular:** o valor é a altura **mínima**. Se o conteúdo (título, fogueira e cartões) não couber, o hero cresce.
+
 ### 4. Editar textos e links
 
 No painel do widget, cada parte tem sua seção:
@@ -128,9 +138,10 @@ Em qualquer lugar que aceite shortcode (inclusive o widget **Shortcode** do Elem
 [gc_camp_hero eyebrow="Texto pequeno" title="Seu título" heading_tag="h2"]
 [gc_camp_hero fireflies="yes" fireflies_count="20" fireflies_speed="1.5"]
 [gc_camp_hero fireflies="no"]
+[gc_camp_hero height="100vh" height_mobile="90vh"]
 ```
 
-Pelo shortcode dá para mudar a linha de destaque, o título, a tag, o cabeçalho e os vaga-lumes. Nomes, descrições e links das barracas só podem ser editados pelo widget.
+Pelo shortcode dá para mudar a linha de destaque, o título, a tag, o cabeçalho, a altura (`height` e `height_mobile`, em `vh` ou `px`) e os vaga-lumes. Nomes, descrições e links das barracas só podem ser editados pelo widget.
 
 ## Perguntas frequentes
 

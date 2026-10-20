@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,9 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.4.0 =
+* Hero height: responsive control (Texto inicial → Altura do hero, vh or px, per device), default 100vh; shortcode attributes height and height_mobile. Desktop keeps a minimum so the tents never climb into the title; on very tall heroes the photo stays bottom-anchored and fades into the sky colour. On phones the value is a minimum height.
 
 = 1.3.3 =
 * Fix: with the cursor resting just below an open plaque, the plaque could flicker open and closed. It now keeps its open width until the description has collapsed.

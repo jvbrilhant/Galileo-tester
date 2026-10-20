@@ -99,6 +99,21 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 				'description'  => 'Sim: o texto desce para não ficar atrás do menu. Não: o hero encolhe para caber na tela abaixo do cabeçalho.',
 			)
 		);
+		$this->add_responsive_control(
+			'hero_height',
+			array(
+				'label'       => 'Altura do hero',
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'size_units'  => array( 'vh', 'px' ),
+				'range'       => array(
+					'vh' => array( 'min' => 30, 'max' => 150 ),
+					'px' => array( 'min' => 300, 'max' => 1600, 'step' => 10 ),
+				),
+				'default'     => array( 'unit' => 'vh', 'size' => 100 ),
+				'selectors'   => array( '{{WRAPPER}} .gc-hero' => '--gc-hero-h: {{SIZE}}{{UNIT}};' ),
+				'description' => 'Ajuste por dispositivo (ícone de tela ao lado do título). 100vh = a tela inteira; com o cabeçalho acima do hero (switch em Não), a altura dele é descontada. No celular é a altura mínima: se o conteúdo não couber, o hero cresce.',
+			)
+		);
 		$this->end_controls_section();
 
 		$labels = array(

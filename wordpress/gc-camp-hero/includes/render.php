@@ -17,6 +17,8 @@ function gc_camp_hero_defaults() {
 		'heading_tag'   => 'h1',
 		'header_height'  => 0,
 		'header_overlay' => false,
+		'height'          => '',
+		'height_mobile'   => '',
 		'fireflies'       => true,
 		'fireflies_count' => 6,
 		'fireflies_speed' => 1,
@@ -130,6 +132,12 @@ function gc_camp_hero_render( $args = array() ) {
 	$style  = '';
 	if ( $header ) {
 		$style = filter_var( $args['header_overlay'], FILTER_VALIDATE_BOOLEAN ) ? "--gc-overlay-offset:{$header}px" : "--gc-header-space:{$header}px";
+	}
+	// Shortcode heights, e.g. "100vh", "80svh", "720px". The widget sets --gc-hero-h through its own selector.
+	foreach ( array( 'height' => '--gc-hero-h', 'height_mobile' => '--gc-hero-h-m' ) as $key => $var ) {
+		if ( preg_match( '/^\d{1,4}(\.\d+)?(vh|svh|dvh|lvh|px|rem|em)$/', trim( (string) $args[ $key ] ), $m ) ) {
+			$style .= ( $style ? ';' : '' ) . $var . ':' . $m[0];
+		}
 	}
 	$speed = (float) $args['fireflies_speed'];
 	if ( $speed > 0 && 1.0 !== $speed ) {

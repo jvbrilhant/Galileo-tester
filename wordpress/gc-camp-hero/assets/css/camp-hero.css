@@ -29,14 +29,20 @@
   --gc-dur: 280ms;
   --gc-overlay-offset: 0px;  /* header overlays the hero: push the intro down by its height */
   --gc-header-space: 0px;    /* header sits above the hero: shrink the hero so it fits the screen */
+  /* Hero height (widget: Texto inicial → Altura do hero). --gc-hero-h-m is the shortcode's phone value. */
+  --gc-hero-h: 100vh;
   --gc-radius: 32px;
 
   position: relative;
   isolation: isolate;
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  background: #10335c;
+  /* Phones: content flows, so the height is a minimum; the camp sits at the bottom. */
+  min-height: calc(var(--gc-hero-h-m, var(--gc-hero-h)) - var(--gc-header-space));
+  background: #143b67; /* the photo's sky colour, shown above the photo on very tall heroes */
   color: var(--gc-on-dark);
   font-family: var(--gc-font-body);
   line-height: 1.6;
@@ -60,7 +66,7 @@
 .gc-hero .gc-hero__eyebrow { margin-bottom: 1rem; font-family: var(--gc-font-body); font-size: .8125rem; font-weight: 500; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; color: var(--gc-amber); }
 .gc-hero .gc-hero__title { margin: 0; font-family: var(--gc-font-heading); font-weight: 400; font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem); line-height: 1.08; letter-spacing: -.01em; text-wrap: balance; text-transform: none; color: var(--gc-on-dark); }
 
-.gc-hero .gc-camp { padding: 0 var(--gc-gutter) 3rem; }
+.gc-hero .gc-camp { margin-top: auto; padding: 0 var(--gc-gutter) 3rem; }
 .gc-hero .gc-camp__places { display: grid; gap: .75rem; max-width: 34rem; margin-inline: auto; }
 
 /* Shared place link (fire + tents). */
@@ -88,11 +94,18 @@
 @media (min-width: 900px) {
   .gc-hero {
     container-type: size;
-    height: max(560px, min(100svh - var(--gc-header-space), 61vw), 50vw);
-    --img-w: max(100cqw, 100cqh * 1.7758);
+    min-height: 0;
+    /* Floor: the tents rise ~25.5% of the photo width above the bottom edge; below this the
+       scene would climb into the title. */
+    height: max(400px, 26vw + 15rem + var(--gc-overlay-offset), var(--gc-hero-h) - var(--gc-header-space));
+    /* Cover the hero, but never crop more than ~26% of the photo's width (that would push the
+       outer tents off-screen); on very tall heroes the photo stays bottom-anchored and fades
+       into the sky colour above it. */
+    --img-w: max(100cqw, min(100cqh * 1.7758, 100cqw * 1.35));
     --img-h: calc(var(--img-w) * .5631);
   }
 
+  .gc-hero .gc-hero__image { position: absolute; left: 50%; bottom: 0; width: var(--img-w); max-width: none; height: var(--img-h); translate: -50% 0; -webkit-mask-image: linear-gradient(transparent, #000 7%); mask-image: linear-gradient(transparent, #000 7%); }
   .gc-hero .gc-hero__shade { background: linear-gradient(180deg, rgb(0 12 30 / .8) 0%, rgb(0 12 30 / .62) 26%, rgb(0 12 30 / .18) 46%, rgb(0 12 30 / 0) 62%, rgb(0 12 30 / .3) 100%); }
 
   .gc-hero .gc-hero__intro { max-width: 82rem; padding-block: calc(clamp(2rem, 7svh, 4.5rem) + var(--gc-overlay-offset)) 0; }
