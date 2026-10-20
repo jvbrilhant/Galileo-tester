@@ -178,7 +178,7 @@ function gc_camp_hero_render( $args = array() ) {
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( $uid ); ?>-kitchen"><?php echo esc_html( $places['kitchen']['name'] ); ?></span>
-						<span class="gc-place__desc" id="<?php echo esc_attr( $uid ); ?>-kitchen-desc"><?php echo esc_html( $places['kitchen']['desc'] ); ?></span>
+						<span class="gc-place__desc" id="<?php echo esc_attr( $uid ); ?>-kitchen-desc"><span><?php echo esc_html( $places['kitchen']['desc'] ); ?></span></span>
 					</span>
 				</a>
 			</li>
@@ -192,7 +192,7 @@ function gc_camp_hero_render( $args = array() ) {
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( "$uid-$key" ); ?>"><?php echo esc_html( $places[ $key ]['name'] ); ?></span>
-						<span class="gc-place__desc" id="<?php echo esc_attr( "$uid-$key-desc" ); ?>"><?php echo esc_html( $places[ $key ]['desc'] ); ?></span>
+						<span class="gc-place__desc" id="<?php echo esc_attr( "$uid-$key-desc" ); ?>"><span><?php echo esc_html( $places[ $key ]['desc'] ); ?></span></span>
 					</span>
 				</a>
 			</li>

@@ -117,14 +117,17 @@
 
   /* Label = a small plaque on the ground; only the name shows at rest. */
   /* Label = a small plaque on the ground. At rest only the name shows; on hover/focus the
-     plaque widens a little and the description opens inside it, under the name. */
-  .gc-hero .gc-place__label { position: relative; width: max-content; min-width: 0; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); transition: min-width var(--gc-dur) var(--gc-ease), background-color var(--gc-dur) var(--gc-ease), border-color var(--gc-dur) var(--gc-ease); }
+     plaque takes its open width at once, grows downward and the description fades in under
+     the name. The width is not animated, so the text never re-wraps while it appears. */
+  .gc-hero .gc-place__label { position: relative; width: max-content; min-width: 0; padding: .625rem 1rem; text-align: center; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: var(--gc-btn-radius); transition: background-color var(--gc-dur) var(--gc-ease), border-color var(--gc-dur) var(--gc-ease); }
   .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__label { min-width: var(--gc-desc-w, 12.5rem); background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
   .gc-hero .gc-place__name { font-size: clamp(.9375rem, .8rem + .2vw, 1.0625rem); }
-  /* contain: inline-size keeps the text from widening the plaque; it wraps to the plaque's width. */
-  .gc-hero .gc-place__desc { contain: inline-size; max-height: 0; margin: 0; overflow: hidden; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; opacity: 0; transition: max-height var(--gc-dur) var(--gc-ease), margin-top var(--gc-dur) var(--gc-ease), opacity var(--gc-dur) var(--gc-ease); }
+  /* contain: inline-size keeps the text from widening the plaque; it wraps to the plaque's width.
+     The 0fr -> 1fr row animates the height to the text's real height. */
+  .gc-hero .gc-place__desc { display: grid; grid-template-rows: 0fr; contain: inline-size; margin: 0; font-size: clamp(.75rem, .7rem + .1vw, .8125rem); line-height: 1.4; opacity: 0; transition: grid-template-rows var(--gc-dur) var(--gc-ease), margin-top var(--gc-dur) var(--gc-ease), opacity 160ms var(--gc-ease); }
+  .gc-hero .gc-place__desc > span { min-height: 0; overflow: hidden; }
   .gc-hero .gc-place:is(:hover, :focus-visible) { z-index: 5; }
-  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { max-height: 6em; margin-top: .375rem; opacity: 1; }
+  .gc-hero .gc-place:is(:hover, :focus-visible) .gc-place__desc { grid-template-rows: 1fr; margin-top: .375rem; opacity: 1; transition: grid-template-rows var(--gc-dur) var(--gc-ease), margin-top var(--gc-dur) var(--gc-ease), opacity var(--gc-dur) var(--gc-ease) 120ms; }
 
   .gc-hero .gc-place__art { width: 100%; }
   .gc-hero .gc-cabin, .gc-hero .gc-cabin:is(:hover, :focus-visible) { padding: 0; background: none; border: 0; }
