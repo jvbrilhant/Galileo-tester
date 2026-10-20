@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,9 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.3.0 =
+* Fireflies: on/off, count (1-60) and speed.
 
 = 1.2.0 =
 * Style tab → Botões: background colour (rest + hover), background opacity, description opacity, border style/width/colour (rest + hover), radius and padding.

@@ -172,9 +172,8 @@
   .gc-hero .gc-campfire__embers i:nth-child(4) { --dx: 16px; animation-duration: 3.6s; animation-delay: -.9s; }
   .gc-hero .gc-campfire__embers i:nth-child(5) { --dx: -18px; animation-duration: 3s; animation-delay: -2.6s; }
   .gc-hero .gc-campfire__embers i:nth-child(6) { --dx: 6px; animation-duration: 2.5s; animation-delay: -1.7s; }
-  .gc-hero .gc-fireflies i { animation: gc-firefly 7s ease-in-out infinite alternate; }
-  .gc-hero .gc-fireflies i:nth-child(2n) { animation-duration: 9s; animation-delay: -3s; }
-  .gc-hero .gc-fireflies i:nth-child(3n) { animation-duration: 11s; animation-delay: -6s; }
+  /* --gc-ff-speed: 1 = default, 2 = twice as fast, .5 = half speed (set by the widget). */
+  .gc-hero .gc-fireflies i { animation: gc-firefly calc(var(--d, 8s) / var(--gc-ff-speed, 1)) ease-in-out calc(var(--dl, 0s) / var(--gc-ff-speed, 1)) infinite alternate; }
   .gc-hero.is-paused *, .gc-hero.is-paused *::before, .gc-hero.is-paused *::after { animation-play-state: paused !important; }
 }
 
@@ -183,7 +182,7 @@
 @keyframes gc-flicker-c { 0% { transform: scaleY(1) skewX(1deg); } 50% { transform: scaleY(1.1) skewX(-2.5deg); } 100% { transform: scaleY(.95) skewX(1deg); } }
 @keyframes gc-glow { from { opacity: .7; } to { opacity: 1; } }
 @keyframes gc-ember { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx, 6px), -130px); } }
-@keyframes gc-firefly { 0% { opacity: .15; transform: translate(0, 0); } 50% { opacity: .9; } 100% { opacity: .25; transform: translate(18px, -14px); } }
+@keyframes gc-firefly { 0% { opacity: .15; transform: translate(0, 0); } 50% { opacity: .9; } 100% { opacity: .25; transform: translate(var(--mx, 18px), var(--my, -14px)); } }
 
 @media (prefers-reduced-motion: reduce) {
   .gc-hero *, .gc-hero *::before, .gc-hero *::after { animation: none !important; transition-duration: 0s !important; }

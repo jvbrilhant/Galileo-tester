@@ -139,6 +139,42 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 			$this->end_controls_section();
 		}
 
+		$this->start_controls_section( 'section_fireflies', array( 'label' => 'Vaga-lumes' ) );
+		$this->add_control(
+			'fireflies',
+			array(
+				'label'        => 'Mostrar vaga-lumes',
+				'type'         => \Elementor\Controls_Manager::SWITCHER,
+				'label_on'     => 'Sim',
+				'label_off'    => 'Não',
+				'return_value' => 'yes',
+				'default'      => 'yes',
+			)
+		);
+		$this->add_control(
+			'fireflies_count',
+			array(
+				'label'     => 'Quantidade',
+				'type'      => \Elementor\Controls_Manager::SLIDER,
+				'range'     => array( 'px' => array( 'min' => 1, 'max' => 60, 'step' => 1 ) ),
+				'default'   => array( 'size' => 6 ),
+				'condition' => array( 'fireflies' => 'yes' ),
+			)
+		);
+		$this->add_control(
+			'fireflies_speed',
+			array(
+				'label'       => 'Velocidade',
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'range'       => array( 'px' => array( 'min' => .25, 'max' => 3, 'step' => .05 ) ),
+				'default'     => array( 'size' => 1 ),
+				'selectors'   => array( '{{WRAPPER}} .gc-hero' => '--gc-ff-speed: {{SIZE}};' ),
+				'condition'   => array( 'fireflies' => 'yes' ),
+				'description' => '1 = padrão, 2 = duas vezes mais rápido, 0,5 = metade da velocidade.',
+			)
+		);
+		$this->end_controls_section();
+
 		// Style tab: buttons (the plaques under each place; the cards on phones).
 		$hero = '{{WRAPPER}} .gc-hero';
 		$this->start_controls_section(
@@ -325,6 +361,9 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 				'heading_tag'   => isset( $s['heading_tag'] ) ? $s['heading_tag'] : 'h1',
 				'header_height'  => isset( $s['header_height'] ) ? (int) $s['header_height'] : 0,
 				'header_overlay' => isset( $s['header_overlay'] ) && 'yes' === $s['header_overlay'],
+				'fireflies'       => ! isset( $s['fireflies'] ) || 'yes' === $s['fireflies'],
+				'fireflies_count' => isset( $s['fireflies_count']['size'] ) ? (int) $s['fireflies_count']['size'] : 6,
+				'fireflies_speed' => 1, // speed is applied by the control's CSS selector
 				'places'        => $places,
 			)
 		);

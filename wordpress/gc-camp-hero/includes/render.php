@@ -17,6 +17,9 @@ function gc_camp_hero_defaults() {
 		'heading_tag'   => 'h1',
 		'header_height'  => 0,
 		'header_overlay' => false,
+		'fireflies'       => true,
+		'fireflies_count' => 6,
+		'fireflies_speed' => 1,
 		'places'        => array(
 			'kitchen' => array(
 				'name' => 'Kitchen Ideas',
@@ -78,6 +81,38 @@ function gc_camp_hero_link_attrs( $place ) {
 }
 
 /**
+ * Firefly markup: deterministic positions (same page = same layout), spread over the
+ * ground and treeline band, each with its own drift, duration and delay.
+ *
+ * @param array $args Render args (fireflies, fireflies_count).
+ */
+function gc_camp_hero_fireflies( $args ) {
+	if ( ! filter_var( $args['fireflies'], FILTER_VALIDATE_BOOLEAN ) ) {
+		return '';
+	}
+	$n = min( 60, max( 0, (int) $args['fireflies_count'] ) );
+	if ( ! $n ) {
+		return '';
+	}
+	$out  = '<span class="gc-fireflies">';
+	$seed = 7;
+	$rand = function () use ( &$seed ) {
+		$seed = ( $seed * 1103515245 + 12345 ) & 0x7fffffff;
+		return $seed / 0x7fffffff;
+	};
+	for ( $i = 0; $i < $n; $i++ ) {
+		$x    = round( ( $i + $rand() ) / $n * 96 + 2, 2 ); // even spread across the width
+		$y    = round( 55 + $rand() * 30, 2 );              // 55–85% of the height
+		$mx   = round( ( $rand() - .5 ) * 50 );
+		$my   = round( -8 - $rand() * 22 );
+		$d    = round( 6 + $rand() * 6, 2 );
+		$dl   = round( -$rand() * 10, 2 );
+		$out .= sprintf( '<i style="--fx:%s%%;--fy:%s%%;--mx:%spx;--my:%spx;--d:%ss;--dl:%ss"></i>', $x, $y, $mx, $my, $d, $dl );
+	}
+	return $out . '</span>';
+}
+
+/**
  * Renders the hero.
  *
  * @param array $args Overrides for gc_camp_hero_defaults().
@@ -95,6 +130,10 @@ function gc_camp_hero_render( $args = array() ) {
 	$style  = '';
 	if ( $header ) {
 		$style = filter_var( $args['header_overlay'], FILTER_VALIDATE_BOOLEAN ) ? "--gc-overlay-offset:{$header}px" : "--gc-header-space:{$header}px";
+	}
+	$speed = (float) $args['fireflies_speed'];
+	if ( $speed > 0 && 1.0 !== $speed ) {
+		$style .= ( $style ? ';' : '' ) . '--gc-ff-speed:' . min( 4, max( .1, $speed ) );
 	}
 	$uid    = wp_unique_id( 'gc-hero-' );
 	$img    = GC_CAMP_HERO_URL . 'assets/img/';
@@ -114,7 +153,7 @@ function gc_camp_hero_render( $args = array() ) {
 			<source media="(max-width: 899px)" type="image/webp" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg-portrait', array( 540, 1060 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="1060" height="1882">
 			<img class="gc-hero__image" src="<?php echo esc_url( $img . 'camp-bg-1920.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg', array( 1280, 1920, 2560, 3342 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="3342" height="1882" alt="" fetchpriority="high">
 		</picture>
-		<span class="gc-fireflies"><i style="--fx:12%;--fy:62%"></i><i style="--fx:31%;--fy:58%"></i><i style="--fx:58%;--fy:60%"></i><i style="--fx:76%;--fy:57%"></i><i style="--fx:93%;--fy:66%"></i><i style="--fx:44%;--fy:76%"></i></span>
+		<?php echo gc_camp_hero_fireflies( $args ); // phpcs:ignore WordPress.Security.EscapeOutput -- numbers only ?>
 	</div>
 	<div class="gc-hero__fx" aria-hidden="true"><span class="gc-hero__shade"></span></div>
 

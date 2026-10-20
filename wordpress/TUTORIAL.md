@@ -97,6 +97,16 @@ Em cada seção, use **Tipografia** para escolher fonte, tamanho (por dispositiv
 
 Campos deixados em branco mantêm o visual original (Prata nos títulos e Poppins no resto).
 
+### 5c. Vaga-lumes
+
+Na aba **Conteúdo → Vaga-lumes**:
+
+- **Mostrar vaga-lumes:** liga ou desliga.
+- **Quantidade:** de 1 a 60 (padrão 6). Eles se espalham pela largura da cena, na faixa do chão e da mata.
+- **Velocidade:** de 0,25× (bem lentos) a 3× (rápidos). 1× é a velocidade original.
+
+Com "reduzir movimento" ativado no sistema do visitante, os vaga-lumes não aparecem.
+
 ### 6. SEO: tag do título
 
 O título do hero vem como **H1**. Se a página já tiver outro H1, como o título do tema, mude a **Tag do título** para **H2** ou desative o título da página: em **Configurações da página → Ocultar título**, ou use o modelo de página **Elementor Largura Total**.
@@ -117,9 +127,11 @@ Em qualquer lugar que aceite shortcode (inclusive o widget **Shortcode** do Elem
 [gc_camp_hero]
 [gc_camp_hero header_height="80" header_overlay="yes"]
 [gc_camp_hero eyebrow="Texto pequeno" title="Seu título" heading_tag="h2"]
+[gc_camp_hero fireflies="yes" fireflies_count="20" fireflies_speed="1.5"]
+[gc_camp_hero fireflies="no"]
 ```
 
-Pelo shortcode dá para mudar a linha de destaque, o título, a tag e o cabeçalho. Nomes, descrições e links das barracas só podem ser editados pelo widget.
+Pelo shortcode dá para mudar a linha de destaque, o título, a tag, o cabeçalho e os vaga-lumes. Nomes, descrições e links das barracas só podem ser editados pelo widget.
 
 ## Perguntas frequentes
 
