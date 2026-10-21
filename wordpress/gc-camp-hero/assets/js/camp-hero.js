@@ -1,0 +1,32 @@
+/**
+ * Camp Hero: pauses the hero animations while the hero is off-screen or the tab is hidden.
+ * Progressive enhancement only; the hero works without this file.
+ */
+(function () {
+  'use strict';
+
+  function init(hero) {
+    if (hero.dataset.gcInit) return;
+    hero.dataset.gcInit = '1';
+    var inView = true;
+    function update() { hero.classList.toggle('is-paused', !inView || document.hidden); }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { inView = entries[entries.length - 1].isIntersecting; update(); }).observe(hero);
+    }
+    document.addEventListener('visibilitychange', update);
+  }
+
+  function scan() { document.querySelectorAll('.gc-hero').forEach(init); }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scan); else scan();
+
+  // Elementor editor/preview renders widgets after load.
+  window.addEventListener('elementor/frontend/init', function () {
+    if (window.elementorFrontend && window.elementorFrontend.hooks) {
+      window.elementorFrontend.hooks.addAction('frontend/element_ready/gc_camp_hero.default', function ($el) {
+        var hero = ($el && $el[0] ? $el[0] : $el).querySelector('.gc-hero');
+        if (hero) init(hero);
+      });
+    }
+  });
+})();
