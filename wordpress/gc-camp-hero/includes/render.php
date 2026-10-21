@@ -50,6 +50,16 @@ function gc_camp_hero_defaults() {
 }
 
 /**
+ * Escaped URL of a bundled image, versioned so that updated images replace cached copies
+ * (browsers, page caches and CDNs keep the old file otherwise, since the name stays the same).
+ *
+ * @param string $file File name in assets/img/.
+ */
+function gc_camp_hero_img( $file ) {
+	return esc_url( GC_CAMP_HERO_URL . 'assets/img/' . $file . '?ver=' . GC_CAMP_HERO_VERSION );
+}
+
+/**
  * Builds a srcset string for one image family.
  *
  * @param string $base   File name without the width suffix, e.g. "tent-library".
@@ -58,7 +68,7 @@ function gc_camp_hero_defaults() {
 function gc_camp_hero_srcset( $base, $widths ) {
 	$out = array();
 	foreach ( $widths as $w ) {
-		$out[] = esc_url( GC_CAMP_HERO_URL . "assets/img/{$base}-{$w}.webp" ) . " {$w}w";
+		$out[] = gc_camp_hero_img( "{$base}-{$w}.webp" ) . " {$w}w";
 	}
 	return implode( ', ', $out );
 }
@@ -163,7 +173,6 @@ function gc_camp_hero_render( $args = array() ) {
 		$title = implode( ' ', $words );
 	}
 	$uid    = wp_unique_id( 'gc-hero-' );
-	$img    = GC_CAMP_HERO_URL . 'assets/img/';
 
 	// Tents: x, y (bottom of art), width, cast-shadow offset — fractions of the photo.
 	$tents = array(
@@ -178,7 +187,7 @@ function gc_camp_hero_render( $args = array() ) {
 	<div class="gc-hero__media" aria-hidden="true">
 		<picture>
 			<source media="(max-width: 899px)" type="image/webp" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg-portrait', array( 540, 1060 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="1060" height="1882">
-			<img class="gc-hero__image" src="<?php echo esc_url( $img . 'camp-bg-1920.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg', array( 1280, 1920, 2560, 3342 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="3342" height="1882" alt="" fetchpriority="high">
+			<img class="gc-hero__image" src="<?php echo gc_camp_hero_img( 'camp-bg-1920.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'camp-bg', array( 1280, 1920, 2560, 3342 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="100vw" width="3342" height="1882" alt="" fetchpriority="high">
 		</picture>
 		<?php echo gc_camp_hero_fireflies( $args ); // phpcs:ignore WordPress.Security.EscapeOutput -- numbers only ?>
 	</div>
@@ -197,7 +206,7 @@ function gc_camp_hero_render( $args = array() ) {
 				<a class="gc-place gc-campfire"<?php echo gc_camp_hero_link_attrs( $places['kitchen'] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:.6;--y:.85;--w:.104;--ar:.7122" aria-labelledby="<?php echo esc_attr( $uid ); ?>-kitchen"<?php echo '' !== $places['kitchen']['desc'] ? ' aria-describedby="' . esc_attr( "$uid-kitchen-desc" ) . '"' : ''; ?>>
 					<span class="gc-place__art gc-campfire__art" aria-hidden="true">
 						<span class="gc-campfire__glow"></span>
-						<img class="gc-campfire__img" src="<?php echo esc_url( $img . 'campfire-800.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'campfire', array( 420, 800 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="(min-width: 900px) 12vw, 13.5rem" width="800" height="570" alt="">
+						<img class="gc-campfire__img" src="<?php echo gc_camp_hero_img( 'campfire-800.webp' ); ?>" srcset="<?php echo gc_camp_hero_srcset( 'campfire', array( 420, 800 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="(min-width: 900px) 12vw, 13.5rem" width="800" height="570" alt="">
 						<span class="gc-campfire__flame gc-campfire__flame--1"></span>
 						<span class="gc-campfire__flame gc-campfire__flame--2"></span>
 						<span class="gc-campfire__flame gc-campfire__flame--3"></span>
@@ -216,9 +225,9 @@ function gc_camp_hero_render( $args = array() ) {
 				<a class="gc-place gc-cabin gc-cabin--<?php echo esc_attr( $key ); ?>"<?php echo gc_camp_hero_link_attrs( $places[ $key ] ); // phpcs:ignore WordPress.Security.EscapeOutput ?> style="--x:<?php echo esc_attr( $t[0] ); ?>;--y:<?php echo esc_attr( $t[1] ); ?>;--w:<?php echo esc_attr( $t[2] ); ?>;--ar:.558;--sx:<?php echo esc_attr( $t[3] ); ?>" aria-labelledby="<?php echo esc_attr( "$uid-$key" ); ?>"<?php echo '' !== $places[ $key ]['desc'] ? ' aria-describedby="' . esc_attr( "$uid-$key-desc" ) . '"' : ''; ?>>
 					<span class="gc-place__art" aria-hidden="true">
 						<span class="gc-place__shadow"></span><span class="gc-place__light"></span>
-						<img class="gc-place__img" src="<?php echo esc_url( $img . "tent-$key-900.webp" ); ?>" srcset="<?php echo gc_camp_hero_srcset( "tent-$key", array( 260, 520, 900, 1400 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="<?php echo esc_attr( $t[4] ); ?>" width="900" height="502" alt="" decoding="async">
-						<img class="gc-place__glow" src="<?php echo esc_url( $img . "tent-$key-glow.webp" ); ?>" width="520" height="290" alt="" loading="lazy">
-						<img class="gc-place__icon" src="<?php echo esc_url( $img . "tent-$key-icon.webp" ); ?>" width="1400" height="781" alt="" loading="lazy">
+						<img class="gc-place__img" src="<?php echo gc_camp_hero_img( "tent-$key-900.webp" ); ?>" srcset="<?php echo gc_camp_hero_srcset( "tent-$key", array( 260, 520, 900, 1400 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="<?php echo esc_attr( $t[4] ); ?>" width="900" height="502" alt="" decoding="async">
+						<img class="gc-place__glow" src="<?php echo gc_camp_hero_img( "tent-$key-glow.webp" ); ?>" width="520" height="290" alt="" loading="lazy">
+						<img class="gc-place__icon" src="<?php echo gc_camp_hero_img( "tent-$key-icon.webp" ); ?>" width="1400" height="781" alt="" loading="lazy">
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( "$uid-$key" ); ?>"><?php echo esc_html( $places[ $key ]['name'] ); ?></span>
