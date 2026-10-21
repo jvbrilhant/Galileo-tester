@@ -1,7 +1,7 @@
 === Camp Hero ===
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 
 The camp hero section (fire + three tents) as an Elementor widget and a shortcode.
@@ -18,6 +18,9 @@ Tent and fire positions are fractions of the backdrop photo and live in includes
 ($tents and the fire's inline style): --x centre, --y bottom of the art, --w width.
 
 == Changelog ==
+
+= 1.6.1 =
+* Library and About Us tent icons redrawn in the perspective of the tent panel (like the Study Groups icon), at rest and in the hover light layer.
 
 = 1.6.0 =
 * Hover: the icon painted on each tent lights up softly (warm layer traced from the icon). Style → Barracas → Brilho do ícone no hover (0–1, default 0.8). Not loaded on phones.
