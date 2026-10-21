@@ -93,6 +93,10 @@ Na aba **Estilo → Botões** você ajusta as plaquinhas com os nomes que ficam 
 
 Se o fundo ficar muito transparente sobre partes claras da foto, o texto pode perder contraste. Abaixo de 0,6, confira no navegador.
 
+### 5a. Brilho do ícone das barracas
+
+Ao passar o mouse sobre uma barraca, o ícone pintado nela acende com uma luz quente suave. Em **Estilo → Barracas → Brilho do ícone no hover** você ajusta a intensidade: de 0 (não acende) a 1 (brilho máximo). O padrão é 0,8. No celular não há hover, então o efeito não aparece.
+
 ### 5b. Trocar fontes e cores
 
 Na aba **Estilo** do widget há quatro seções, uma para cada tipo de texto:

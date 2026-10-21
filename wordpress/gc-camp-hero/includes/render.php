@@ -218,6 +218,7 @@ function gc_camp_hero_render( $args = array() ) {
 						<span class="gc-place__shadow"></span><span class="gc-place__light"></span>
 						<img class="gc-place__img" src="<?php echo esc_url( $img . "tent-$key-900.webp" ); ?>" srcset="<?php echo gc_camp_hero_srcset( "tent-$key", array( 260, 520, 900, 1400 ) ); // phpcs:ignore WordPress.Security.EscapeOutput ?>" sizes="<?php echo esc_attr( $t[4] ); ?>" width="900" height="502" alt="" decoding="async">
 						<img class="gc-place__glow" src="<?php echo esc_url( $img . "tent-$key-glow.webp" ); ?>" width="520" height="290" alt="" loading="lazy">
+						<img class="gc-place__icon" src="<?php echo esc_url( $img . "tent-$key-icon.webp" ); ?>" width="1400" height="781" alt="" loading="lazy">
 					</span>
 					<span class="gc-place__label">
 						<span class="gc-place__name" id="<?php echo esc_attr( "$uid-$key" ); ?>"><?php echo esc_html( $places[ $key ]['name'] ); ?></span>

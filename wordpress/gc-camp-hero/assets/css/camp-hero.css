@@ -86,7 +86,7 @@
 /* Phones: full-width cards (tent left, text right). */
 .gc-hero .gc-cabin { grid-template-columns: 6.5rem 1fr; align-items: center; gap: 1rem; padding: .75rem 1rem .75rem .75rem; background: color-mix(in srgb, var(--gc-btn-bg) calc(var(--gc-btn-bg-a) * 100%), transparent); border: var(--gc-btn-border-w) var(--gc-btn-border-style) var(--gc-btn-border); border-radius: calc(var(--gc-btn-radius) + 6px); }
 .gc-hero .gc-cabin:is(:hover, :focus-visible) { background: color-mix(in srgb, var(--gc-btn-bg-hover) calc(var(--gc-btn-bg-a) * 100%), transparent); border-color: var(--gc-btn-border-hover); }
-.gc-hero .gc-place__glow { display: none; }
+.gc-hero :is(.gc-place__glow, .gc-place__icon) { display: none; }
 
 /* ≥900px: the hero fills the viewport and the photo is drawn with object-fit: cover,
    bottom-anchored. --img-w/--img-h are the photo's rendered size (container units),
@@ -146,7 +146,7 @@
 
   .gc-hero .gc-place__art { width: 100%; }
   .gc-hero .gc-cabin, .gc-hero .gc-cabin:is(:hover, :focus-visible) { padding: 0; background: none; border: 0; }
-  .gc-hero .gc-place__glow { display: block; }
+  .gc-hero :is(.gc-place__glow, .gc-place__icon) { display: block; }
 }
 
 /* Compact range (900–1199px): smaller plaques, no eyebrow. */
@@ -169,13 +169,16 @@
 @media (min-width: 900px) { .gc-hero .gc-campfire .gc-place__art { width: 100%; } }
 
 /* Tents: graded WebP + extra-light layer, cast shadow and door light on the ground. */
-.gc-hero .gc-place__glow { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: screen; opacity: 0; pointer-events: none; transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+.gc-hero :is(.gc-place__glow, .gc-place__icon) { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: screen; opacity: 0; pointer-events: none; transition: opacity var(--gc-dur) var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
 .gc-hero .gc-place__shadow, .gc-hero .gc-place__light { position: absolute; border-radius: 50%; pointer-events: none; transition: transform var(--gc-dur) var(--gc-ease), opacity var(--gc-dur) var(--gc-ease); }
 .gc-hero .gc-place__shadow { left: calc(4% + var(--sx, 0) * 100%); right: calc(4% - var(--sx, 0) * 100%); top: 66%; height: 26%; background: radial-gradient(closest-side, rgb(0 0 0 / .62), rgb(0 0 0 / .28) 60%, transparent); }
 .gc-hero .gc-place__light { left: 45%; right: -6%; top: 74%; height: 26%; background: radial-gradient(closest-side, rgb(255 170 80 / .42), transparent); mix-blend-mode: screen; opacity: .5; }
 .gc-hero .gc-cabin--about .gc-place__light { left: -6%; right: 45%; }
-.gc-hero .gc-cabin:is(:hover, :focus-visible) :is(.gc-place__img, .gc-place__glow) { transform: translateY(-3px); }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) :is(.gc-place__img, .gc-place__glow, .gc-place__icon) { transform: translateY(-3px); }
 .gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__glow { opacity: 1; }
+/* The icon painted on the tent lights up softly (warm layer traced from the icon, screen-blended). */
+.gc-hero .gc-place__icon { transition: opacity 600ms var(--gc-ease), transform var(--gc-dur) var(--gc-ease); }
+.gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__icon { opacity: var(--gc-icon-glow, .8); }
 .gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__shadow { transform: scaleX(.95); opacity: .85; }
 .gc-hero .gc-cabin:is(:hover, :focus-visible) .gc-place__light { opacity: 1; }
 

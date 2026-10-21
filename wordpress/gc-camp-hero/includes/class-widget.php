@@ -260,6 +260,26 @@ class GC_Camp_Hero_Widget extends \Elementor\Widget_Base {
 		// Style tab: buttons (the plaques under each place; the cards on phones).
 		$hero = '{{WRAPPER}} .gc-hero';
 		$this->start_controls_section(
+			'style_tents',
+			array(
+				'label' => 'Barracas',
+				'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+			)
+		);
+		$this->add_control(
+			'icon_glow',
+			array(
+				'label'       => 'Brilho do ícone no hover',
+				'type'        => \Elementor\Controls_Manager::SLIDER,
+				'range'       => array( 'px' => array( 'min' => 0, 'max' => 1, 'step' => .05 ) ),
+				'default'     => array( 'size' => .8 ),
+				'selectors'   => array( $hero => '--gc-icon-glow: {{SIZE}};' ),
+				'description' => '0 = o ícone não acende, 1 = brilho máximo. Vale no desktop (o celular não tem hover).',
+			)
+		);
+		$this->end_controls_section();
+
+		$this->start_controls_section(
 			'style_buttons',
 			array(
 				'label' => 'Botões',
